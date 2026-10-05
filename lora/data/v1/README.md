@@ -1,9 +1,9 @@
-# SUSE dataset v1 (draft, for review)
+# SUSE dataset v1
 
 Version 1 of the SUSE instruction-tuning dataset, rebuilt after test 1 (see ~/Downloads/lora-testing).
 v0 stated ~700 different facts once each; the model learned the style but not the facts, and invented
 confident commands. v1 teaches fewer facts, each several ways, and teaches the model not to invent.
-Drafted 2026-10-04 from SUSE's public documentation; **not reviewed yet**.
+Drafted from SUSE's public documentation; **not reviewed** (see `DATA.md`).
 
 | File | Records | Use |
 |---|---|---|

@@ -4,8 +4,6 @@ A worked LoRA fine-tuning study on SUSE AI Factory: a 1.5B-parameter model, a 6 
 GPU, a dataset drafted from SUSE's documentation, and an evaluation designed to tell learning apart
 from style, guessing and reflexes. Each step changes one thing and records why.
 
-**Status:** in progress. Tests 1–6 complete; test 9 (Qwen2.5-3B, 4-bit) being evaluated; notebooks to come.
-
 ## What's here
 
 | Path | What |

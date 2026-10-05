@@ -1,8 +1,8 @@
-# SUSE dataset v0 (draft, for review)
+# SUSE dataset v0
 
 A small instruction-tuning dataset that teaches a chat model to answer Kubernetes and infrastructure
-questions with accurate, SUSE-aware answers. Drafted 2026-10-04 from SUSE's public documentation;
-**not reviewed yet**: do not train on it for anything beyond the lab demo until it has been.
+questions with accurate, SUSE-aware answers. Drafted from SUSE's public documentation;
+**not reviewed** (see `DATA.md`).
 
 | File | Records | Use |
 |---|---|---|

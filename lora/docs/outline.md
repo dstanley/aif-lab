@@ -1,4 +1,4 @@
-# Tutorial outline (draft)
+# Tutorial outline
 
 1. **The goal and the setup.** A SUSE assistant from a small model on a GPU share; why LoRA; the AI
    Factory pieces (training profile, AIJob, checkpoint volume, the SDK).
@@ -13,8 +13,7 @@
    - test 3: capacity (rank 64, all linear layers): 38%, exact commands 31%; overfits after epoch 2
    - test 4 / 4b: PiSSA initialisation: no gain; at a lower learning rate, learns less
    - test 5: real batching and clipping: same quality, 1.4× faster: the baseline
-   - test 6: DoRA (pending)
-   - test 9: a 3B model in 4-bit on the same share (pending)
+   - test 6: DoRA: the same quality at 4.6× the training time
 6. **What went wrong, and what it taught.** PiSSA adapters saved for the wrong base; early stopping
    inside the post-epoch validation bump; the "No" reflex the premise corrections taught (the
    true-premise control).
