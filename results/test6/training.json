@@ -1,0 +1,187 @@
+{
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "quant": "none",
+  "dataset": "/mnt/config/suse-train-v1.jsonl",
+  "split": "train",
+  "file": "suse-train-v1.jsonl",
+  "sha256": "1cf0058b922a8f1f865fb73a80172458b89f05663790df1bbe32f2254eea494b",
+  "examples": [
+    0,
+    1306
+  ],
+  "validation": {
+    "examples": 131,
+    "from": "training phrasings of facts with 3 or more",
+    "facts": 131,
+    "facts_also_in_training": 131,
+    "measures": "new wording of facts the run trains on, not unseen facts"
+  },
+  "truncation": {
+    "seq_len": 512,
+    "examples_cut": 0,
+    "of": 1306,
+    "longest": 176
+  },
+  "steps": 882,
+  "epochs": 3.0,
+  "batch": 4,
+  "seq_len": 512,
+  "batch_mode": "padded",
+  "mask_prompt": true,
+  "lora": {
+    "r": 64,
+    "alpha": 16,
+    "dropout": 0.05,
+    "targets": "all-linear",
+    "rslora": true,
+    "dora": true,
+    "init": "gaussian",
+    "effective_scale": 2.0,
+    "saved_as": "as trained"
+  },
+  "parameters": {
+    "trainable": 74504192,
+    "total": 1618218496,
+    "trainable_percent": 4.604
+  },
+  "optimiser": {
+    "lr": 0.0002,
+    "schedule": "cosine",
+    "warmup_steps": 44,
+    "seed": 42,
+    "max_grad_norm": 1.0
+  },
+  "loss": "mean over answer tokens",
+  "history": [
+    {
+      "step": 73,
+      "epoch": 0.25,
+      "train_loss": 2.2999,
+      "grad_norm": 2.868,
+      "val_loss": 2.1685
+    },
+    {
+      "step": 146,
+      "epoch": 0.5,
+      "train_loss": 2.0649,
+      "grad_norm": 2.446,
+      "val_loss": 2.0054
+    },
+    {
+      "step": 219,
+      "epoch": 0.74,
+      "train_loss": 1.9901,
+      "grad_norm": 2.631,
+      "val_loss": 1.9111
+    },
+    {
+      "step": 292,
+      "epoch": 0.99,
+      "train_loss": 1.8744,
+      "grad_norm": 2.415,
+      "val_loss": 1.8271
+    },
+    {
+      "step": 294,
+      "epoch": 1.0,
+      "train_loss": 1.7781,
+      "grad_norm": 2.501,
+      "val_loss": 1.8285
+    },
+    {
+      "step": 365,
+      "epoch": 1.24,
+      "train_loss": 1.0772,
+      "grad_norm": 2.955,
+      "val_loss": 1.8891
+    },
+    {
+      "step": 438,
+      "epoch": 1.49,
+      "train_loss": 1.0893,
+      "grad_norm": 2.543,
+      "val_loss": 1.9054
+    },
+    {
+      "step": 511,
+      "epoch": 1.74,
+      "train_loss": 1.079,
+      "grad_norm": 2.944,
+      "val_loss": 1.8215
+    },
+    {
+      "step": 584,
+      "epoch": 1.99,
+      "train_loss": 0.9693,
+      "grad_norm": 3.799,
+      "val_loss": 1.7854
+    },
+    {
+      "step": 588,
+      "epoch": 2.0,
+      "train_loss": 1.0974,
+      "grad_norm": 3.099,
+      "val_loss": 1.7873
+    },
+    {
+      "step": 657,
+      "epoch": 2.23,
+      "train_loss": 0.3807,
+      "grad_norm": 1.944,
+      "val_loss": 2.2058
+    },
+    {
+      "step": 730,
+      "epoch": 2.48,
+      "train_loss": 0.365,
+      "grad_norm": 2.274,
+      "val_loss": 2.251
+    },
+    {
+      "step": 803,
+      "epoch": 2.73,
+      "train_loss": 0.3758,
+      "grad_norm": 2.059,
+      "val_loss": 2.2025
+    },
+    {
+      "step": 876,
+      "epoch": 2.98,
+      "train_loss": 0.3743,
+      "grad_norm": 2.964,
+      "val_loss": 2.2164
+    },
+    {
+      "step": 882,
+      "epoch": 3.0,
+      "train_loss": 0.3364,
+      "grad_norm": 3.313,
+      "val_loss": 2.218
+    }
+  ],
+  "selection": {
+    "criterion": "min_validation_loss",
+    "step": 584,
+    "epoch": 1.99,
+    "value": 1.7854
+  },
+  "best_epoch": 1.99,
+  "stopping": {
+    "val_every": 73,
+    "patience": 0,
+    "min_delta": 0.005,
+    "stopped_early_at": null
+  },
+  "throughput": {
+    "examples_per_s": 1.69,
+    "answer_tokens_per_s": 97,
+    "training_seconds": 2091,
+    "peak_gib": 4.98
+  },
+  "libraries": {
+    "transformers": "4.51.3",
+    "peft": "0.15.2"
+  },
+  "run": "dev-suse-v1-dora",
+  "finished": "2026-10-05T08:49:00Z"
+}

@@ -25,3 +25,5 @@
 - 03:35 test 5 (padded batch 4 + clip 1.0, PATIENCE=0): best val 1.778 @ 1.99 (test 3 1.791); taught 123 (+97 -18), exact
   commands 32% (test 3 31%), untaught 35, fp rej+doc 18 (14), true-premise opens No 13 (16). Training 450 s vs ~630 s.
   Equivalent to test 3 within grader noise, 1.4x faster: the new baseline.
+- 05:56 test 6 (DoRA on test 5's recipe): best val 1.785 @ 1.99 (test 5 1.778); taught 122 (123), exact commands 33% (32%),
+  untaught 33, fp rej+doc 15, true-premise opens No 14. Training 2,091 s vs 450 s (1.7 examples/s): same quality, 4.6x slower.

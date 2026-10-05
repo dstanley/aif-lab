@@ -1,0 +1,71 @@
+{
+ "test": "LoRA Evaluation",
+ "status": "pass",
+ "checks": [
+  {
+   "name": "Adapter found",
+   "ok": true,
+   "detail": "/mnt/checkpoints/dev-suse-v1-dora (rank 64, base Qwen/Qwen2.5-1.5B-Instruct)"
+  },
+  {
+   "name": "Evaluation is held out",
+   "ok": true,
+   "detail": "none of the 42 questions is in the training file"
+  },
+  {
+   "name": "Adapter loads",
+   "ok": true,
+   "detail": "on Qwen/Qwen2.5-1.5B-Instruct"
+  },
+  {
+   "name": "Adapter improves held-out loss",
+   "ok": true,
+   "detail": "2.650 -> 1.668 (37.1% lower) on the answers of 42 examples it was not trained on"
+  },
+  {
+   "name": "Adapter changes the answers",
+   "ok": true,
+   "detail": "3 of 3 answers differ from the base model's"
+  },
+  {
+   "name": "Adapter answers more questions correctly",
+   "ok": true,
+   "detail": "14% -> 38% of 42 graded questions (+24 points)"
+  }
+ ],
+ "metrics": {
+  "Adapter": "/mnt/checkpoints/dev-suse-v1-dora",
+  "Training run": "dev-suse-v1-dora",
+  "Evaluated on": "suse-eval-false-premise.jsonl (42 questions, sha256 10f8bff2253a)",
+  "Trained on": "suse-train-v1.jsonl (1306 examples, sha256 1cf0058b922a)",
+  "Base model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "Held-out examples": "42",
+  "Loss on": "answers only",
+  "Base model loss": "2.650",
+  "Adapter loss": "1.668",
+  "Loss reduction": "37.1%",
+  "Base perplexity": "14.15",
+  "Adapter perplexity": "5.30",
+  "Evaluation time (s)": "20",
+  "Graded questions": "42",
+  "Correct answers (base / adapter)": "14% / 38%",
+  "Expected terms (base / adapter)": "14% / 38%",
+  "Commands (base / adapter)": "- / -",
+  "Grading time (s)": "210",
+  "Correct by premise: contradicts (base / adapter)": "3/24 / 11/24",
+  "Correct by premise: invented (base / adapter)": "3/18 / 5/18",
+  "Correct by area: linux (base / adapter)": "1/7 / 3/7",
+  "Correct by area: rancher (base / adapter)": "1/7 / 2/7",
+  "Correct by area: rke2 (base / adapter)": "1/7 / 3/7",
+  "Correct by area: security (base / adapter)": "2/7 / 4/7",
+  "Correct by area: storage (base / adapter)": "1/7 / 2/7",
+  "Correct by area: virtualization (base / adapter)": "0/7 / 2/7",
+  "Answers saved to": "/mnt/checkpoints/dev-suse-v1-dora/eval/false-premise-20261005T094933Z.jsonl",
+  "Peak GPU memory (GiB)": "3.71"
+ },
+ "env": {
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "gpu": "NVIDIA RTX A2000 12GB",
+  "node": "gpu-node"
+ }
+}
