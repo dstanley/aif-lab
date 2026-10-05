@@ -1,0 +1,70 @@
+{
+ "test": "LoRA Evaluation",
+ "status": "pass",
+ "checks": [
+  {
+   "name": "Adapter found",
+   "ok": true,
+   "detail": "/mnt/checkpoints/dev-suse-v1-3b (rank 64, base Qwen/Qwen2.5-3B-Instruct)"
+  },
+  {
+   "name": "Evaluation is held out",
+   "ok": true,
+   "detail": "none of the 338 questions is in the training file"
+  },
+  {
+   "name": "Adapter loads",
+   "ok": true,
+   "detail": "on Qwen/Qwen2.5-3B-Instruct (4-bit NF4)"
+  },
+  {
+   "name": "Adapter improves held-out loss",
+   "ok": true,
+   "detail": "3.694 -> 1.392 (62.3% lower) on the answers of 338 examples it was not trained on"
+  },
+  {
+   "name": "Adapter changes the answers",
+   "ok": true,
+   "detail": "3 of 3 answers differ from the base model's"
+  },
+  {
+   "name": "Adapter answers more questions correctly",
+   "ok": true,
+   "detail": "14% -> 45% of 338 graded questions (+31 points)"
+  }
+ ],
+ "metrics": {
+  "Adapter": "/mnt/checkpoints/dev-suse-v1-3b",
+  "Training run": "dev-suse-v1-3b",
+  "Evaluated on": "suse-eval-taught.jsonl (338 questions, sha256 e65643b6f018)",
+  "Trained on": "suse-train-v1.jsonl (1306 examples, sha256 1cf0058b922a)",
+  "Base model": "Qwen/Qwen2.5-3B-Instruct (4-bit NF4)",
+  "Held-out examples": "338",
+  "Loss on": "answers only",
+  "Base model loss": "3.694",
+  "Adapter loss": "1.392",
+  "Loss reduction": "62.3%",
+  "Base perplexity": "40.19",
+  "Adapter perplexity": "4.02",
+  "Evaluation time (s)": "86",
+  "Graded questions": "338",
+  "Correct answers (base / adapter)": "14% / 45%",
+  "Expected terms (base / adapter)": "16% / 51%",
+  "Commands (base / adapter)": "1% / 42%",
+  "Grading time (s)": "1296",
+  "Wrong terms (base / adapter)": "1/28 / 2/28",
+  "Correct by area: linux (base / adapter)": "6/55 / 30/55",
+  "Correct by area: rancher (base / adapter)": "7/58 / 16/58",
+  "Correct by area: rke2-k3s (base / adapter)": "2/57 / 26/57",
+  "Correct by area: security (base / adapter)": "11/55 / 27/55",
+  "Correct by area: storage (base / adapter)": "11/60 / 30/60",
+  "Correct by area: virtualization (base / adapter)": "10/53 / 24/53",
+  "Answers saved to": "/mnt/checkpoints/dev-suse-v1-3b/eval/taught-20261005T113810Z.jsonl",
+  "Peak GPU memory (GiB)": "2.86"
+ },
+ "env": {
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "gpu": "NVIDIA RTX A2000 12GB",
+  "node": "gpu-node"
+ }
+}
