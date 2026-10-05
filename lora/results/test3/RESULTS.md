@@ -66,11 +66,18 @@ built to teach.
 | Rejects **and** gives the documented answer | 2 | 8 | **14** |
 | Opens with "Yes" / "No" / neither | 19 / 3 / 20 | 8 / 19 / 15 | 4 / 29 / 9 |
 
-The negatives work at their job, and generalise to premises they never mention. But "No" often
-comes with wrong reasoning (one answer recommends `apk` for a SUSE image), so the stricter number,
-rejects and documented, is the honest one. A true-premise control (24 true statements phrased the
-same way) checks whether the adapter has simply learned to answer "…, correct?" with "No";
-results in test 4's write-up.
+On these 42 questions alone the negatives look as if they work, generalising to premises they never
+mention; but "No" often comes with wrong reasoning (one answer recommends `apk` for a SUSE image).
+The true-premise control (24 true statements phrased the same way) shows what was learned:
+
+| True premises (24) | Base | Test 2 | **Test 3** |
+|---|---|---|---|
+| Accepted | 21 | 14 | **8** |
+| Opens with "No" | 2 | 10 | **16** |
+
+The adapter answers "…, correct?" with "No" whether or not the premise is wrong: across both sets
+(66 questions) it scores 39, where a model that always says "No" scores 42. That is a shortcut the
+data taught (all 66 negative examples answer "No"), not premise checking.
 
 ## Grader notes
 
@@ -86,4 +93,4 @@ results in test 4's write-up.
 Capacity was a real limit: the same data with a larger adapter, reaching into the MLP layers, nearly
 doubles taught-fact accuracy (20% → 38%) and triples exact commands (11% → 31%). The gain is
 on facts the data teaches; on untaught facts the adapter still invents and never declines, which is
-what v1 teaches (it has no "I don't know" examples). Premise correction, which v1 does teach, works.
+what v1 teaches (it has no "I don't know" examples). And what looked like premise correction is mostly a "No" reflex (above).

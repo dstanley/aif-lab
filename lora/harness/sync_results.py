@@ -11,6 +11,9 @@ SCRUB = [(re.compile(r"rke2-(worker|master|longhorn)\d+"), "gpu-node"), (re.comp
 SKIP = {"overnight-notes.md"}
 for t in tests:
     out = os.path.join(dst, t)
+    # the write-ups are edited in the repo: keep them
+    kept = {f: open(os.path.join(out, f), encoding="utf-8").read() for f in ("RESULTS.md", "README.md")
+            if os.path.exists(os.path.join(out, f))}
     shutil.rmtree(out, ignore_errors=True)
     os.makedirs(out)
     for f in sorted(os.listdir(os.path.join(src, t))):
@@ -19,5 +22,7 @@ for t in tests:
         text = open(os.path.join(src, t, f), encoding="utf-8", errors="replace").read()
         for pat, rep in SCRUB:
             text = pat.sub(rep, text)
+        open(os.path.join(out, f), "w", encoding="utf-8").write(text)
+    for f, text in kept.items():
         open(os.path.join(out, f), "w", encoding="utf-8").write(text)
     print("synced", t, len(os.listdir(out)), "files")
