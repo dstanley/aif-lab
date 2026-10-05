@@ -1,0 +1,5 @@
+extends: test4
+title: "PiSSA at its own learning rate"
+question: "Does PiSSA do better at the lower rate its paper uses?"
+changes: "a 10x lower learning rate"
+optimiser: {lr: 2.0e-5}

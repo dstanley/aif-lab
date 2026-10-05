@@ -1,0 +1,7 @@
+# notebooks and analysis (the training itself runs on the cluster, in its own image)
+pandas>=2.2
+matplotlib>=3.8
+pyyaml>=6.0
+jupyterlab>=4.2
+nbclient>=0.10
+ipykernel>=6.29

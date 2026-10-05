@@ -1,0 +1,6 @@
+extends: test2
+title: "A higher-capacity adapter"
+question: "Is adapter capacity or coverage now the bottleneck?"
+changes: "rank 64 on every linear layer (attention and MLP), rsLoRA with the effective scale kept at 2, cosine schedule"
+lora: {rank: 64, alpha: 16, targets: all-linear, rslora: true}
+optimiser: {schedule: cosine, warmup: 0.05}

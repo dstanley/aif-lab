@@ -1,0 +1,6 @@
+extends: test3
+title: "PiSSA initialisation"
+question: "Can a smarter start learn a better adapter than the default?"
+changes: "the adapter starts from the base weights' principal directions"
+lora: {init: pissa}
+validation: {patience: 3}

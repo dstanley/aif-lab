@@ -1,0 +1,6 @@
+extends: test3
+title: "Real batching (the baseline)"
+question: "Can training be made much faster without losing quality?"
+changes: "one padded forward pass per batch, every answer token weighted equally; gradient clipping"
+batch_mode: padded
+optimiser: {max_grad_norm: 1.0}

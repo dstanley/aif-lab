@@ -1,0 +1,5 @@
+extends: test5
+title: "DoRA"
+question: "Does a more expressive adaptation method beat plain LoRA?"
+changes: "the weight update split into magnitude and direction"
+lora: {dora: true}

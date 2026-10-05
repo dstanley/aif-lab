@@ -1,0 +1,6 @@
+extends: test5
+title: "A bigger base model in 4-bit"
+question: "Have we reached the limit of the 1.5B base model?"
+changes: "Qwen2.5-3B, its frozen weights quantised to 4-bit (QLoRA) to fit the same 6 GiB share"
+model: Qwen/Qwen2.5-3B-Instruct
+quant: nf4

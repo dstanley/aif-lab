@@ -1,0 +1,11 @@
+title: "A first try"
+question: "Can a small LoRA on a GPU share visibly improve SUSE answers?"
+changes: "the starting point"
+configmap: lora-train-v0                 # the training script with dataset v0
+data: /mnt/config/suse-train.jsonl     # dataset v0 (data/v0/train.jsonl)
+steps: 525                              # about 3 epochs of 701 examples
+batch: 4
+seq_len: 512
+mask_prompt: true
+lora: {rank: 16, alpha: 32, targets: attention, init: gaussian}
+optimiser: {lr: 2.0e-4, schedule: constant}

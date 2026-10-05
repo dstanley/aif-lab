@@ -1,6 +1,6 @@
 # Test 2: same adapter, better data (SUSE dataset v1)
 
-**Date:** 2026-10-05 · **Cluster:** lab RKE2, one NVIDIA RTX A2000 12GB shared through KAI + HAMi-core
+**Cluster:** RKE2, one NVIDIA RTX A2000 12GB shared through KAI + HAMi-core
 
 ## Question
 

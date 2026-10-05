@@ -1,0 +1,11 @@
+title: "Better data, same adapter"
+question: "Is better training data alone enough to make facts stick?"
+changes: "the data only (dataset v1: each fact 3-4 ways, one wording held out)"
+data: /mnt/config/suse-train-v1.jsonl
+epochs: 3
+batch: 4
+seq_len: 512
+mask_prompt: true
+lora: {rank: 16, alpha: 32, targets: attention, init: gaussian}
+optimiser: {lr: 2.0e-4, schedule: constant}
+validation: {fraction: 0.1, patience: 0}

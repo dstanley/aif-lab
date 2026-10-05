@@ -1,6 +1,6 @@
 # Test 3: high-capacity adapter on dataset v1
 
-**Date:** 2026-10-05 · **Cluster:** lab RKE2, one NVIDIA RTX A2000 12GB shared through KAI + HAMi-core
+**Cluster:** RKE2, one NVIDIA RTX A2000 12GB shared through KAI + HAMi-core
 
 ## Question
 
