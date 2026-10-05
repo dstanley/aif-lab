@@ -4,7 +4,7 @@ A worked LoRA fine-tuning study on SUSE AI Factory: a 1.5B-parameter model, a 6 
 GPU, a dataset drafted from SUSE's documentation, and an evaluation designed to tell learning apart
 from style, guessing and reflexes. Each step changes one thing and records why.
 
-**Status:** draft, local only. Tests 1–5 complete; 6 (DoRA) and 9 (Qwen2.5-3B, 4-bit) running.
+**Status:** in progress. Tests 1–6 complete; test 9 (Qwen2.5-3B, 4-bit) being evaluated; notebooks to come.
 
 ## What's here
 
@@ -37,7 +37,8 @@ harness/make_configmaps.sh
 PYTHONPATH=<aif>/sdk/python python3 harness/run_test.py test5 my-test5 suse-v1-train-next '{}'
 ```
 
-## Before publishing
+## About the data
 
-- The datasets paraphrase SUSE and upstream project documentation: check those licences.
-- They were drafted by a model from the docs and are **not reviewed**; see each `data/*/notes/`.
+The datasets were drafted by a language model from public SUSE and upstream documentation and are
+not reviewed; the graded answers in `results/` are model output. Read [`DATA.md`](DATA.md) before
+using either for anything.

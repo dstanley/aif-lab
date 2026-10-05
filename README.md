@@ -22,3 +22,17 @@ python3 -m venv .venv && .venv/bin/pip install -r lora/requirements.txt
 
 Runs on the cluster need the `rancher_ai` SDK from the aif repo (`sdk/python`) on `PYTHONPATH`, and
 `AIF_CONTEXT`, `AIF_PROJECT` and `AIF_PROFILE` set (see each study's README).
+
+## Disclaimer
+
+This is an independent lab, not an official SUSE project, product or documentation, and nothing here
+is supported by SUSE. SUSE, Rancher, RKE2, K3s, Longhorn, Harvester and NeuVector are trademarks of
+their owners.
+
+The datasets in the studies were **drafted by a language model** from public SUSE and upstream
+project documentation and have **not been reviewed**: they will contain mistakes, and they are not a
+reference for how to use any product. The model answers recorded in the results are generated text
+and are often wrong, which is part of what the studies measure. Facts paraphrased from the
+documentation remain subject to that documentation's own terms. See [`lora/DATA.md`](lora/DATA.md).
+
+The code is licensed under the Apache License 2.0 (see [`LICENSE`](LICENSE)).
