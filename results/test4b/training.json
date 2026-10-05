@@ -1,0 +1,166 @@
+{
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "quant": "none",
+  "dataset": "/mnt/config/suse-train-v1.jsonl",
+  "split": "train",
+  "file": "suse-train-v1.jsonl",
+  "sha256": "1cf0058b922a8f1f865fb73a80172458b89f05663790df1bbe32f2254eea494b",
+  "examples": [
+    0,
+    1306
+  ],
+  "validation": {
+    "examples": 131,
+    "from": "training phrasings of facts with 3 or more",
+    "facts": 131,
+    "facts_also_in_training": 131,
+    "measures": "new wording of facts the run trains on, not unseen facts"
+  },
+  "truncation": {
+    "seq_len": 512,
+    "examples_cut": 0,
+    "of": 1306,
+    "longest": 176
+  },
+  "steps": 882,
+  "epochs": 3.0,
+  "batch": 4,
+  "seq_len": 512,
+  "batch_mode": "sequential",
+  "mask_prompt": true,
+  "lora": {
+    "r": 64,
+    "alpha": 16,
+    "dropout": 0.05,
+    "targets": "all-linear",
+    "rslora": true,
+    "dora": false,
+    "init": "pissa",
+    "effective_scale": 2.0,
+    "saved_as": "plain LoRA, rank 128, converted from PiSSA for the original base model"
+  },
+  "parameters": {
+    "trainable": 73859072,
+    "total": 1617573376,
+    "trainable_percent": 4.566
+  },
+  "optimiser": {
+    "lr": 2e-05,
+    "schedule": "cosine",
+    "warmup_steps": 44,
+    "seed": 42,
+    "max_grad_norm": null
+  },
+  "loss": "mean over answer tokens",
+  "history": [
+    {
+      "step": 73,
+      "epoch": 0.25,
+      "train_loss": 2.508,
+      "grad_norm": 17.5,
+      "val_loss": 2.2179
+    },
+    {
+      "step": 146,
+      "epoch": 0.5,
+      "train_loss": 2.2494,
+      "grad_norm": 18.122,
+      "val_loss": 2.1118
+    },
+    {
+      "step": 219,
+      "epoch": 0.74,
+      "train_loss": 2.1211,
+      "grad_norm": 12.896,
+      "val_loss": 2.0262
+    },
+    {
+      "step": 292,
+      "epoch": 0.99,
+      "train_loss": 2.0518,
+      "grad_norm": 12.486,
+      "val_loss": 1.9608
+    },
+    {
+      "step": 294,
+      "epoch": 1.0,
+      "train_loss": 2.0842,
+      "grad_norm": 13.818,
+      "val_loss": 1.9578
+    },
+    {
+      "step": 365,
+      "epoch": 1.24,
+      "train_loss": 1.7028,
+      "grad_norm": 11.8,
+      "val_loss": 1.9565
+    },
+    {
+      "step": 438,
+      "epoch": 1.49,
+      "train_loss": 1.6713,
+      "grad_norm": 14.723,
+      "val_loss": 1.9358
+    },
+    {
+      "step": 511,
+      "epoch": 1.74,
+      "train_loss": 1.6234,
+      "grad_norm": 11.918,
+      "val_loss": 1.8938
+    },
+    {
+      "step": 584,
+      "epoch": 1.99,
+      "train_loss": 1.6275,
+      "grad_norm": 16.759,
+      "val_loss": 1.8672
+    },
+    {
+      "step": 588,
+      "epoch": 2.0,
+      "train_loss": 1.5913,
+      "grad_norm": 13.785,
+      "val_loss": 1.8678
+    },
+    {
+      "step": 657,
+      "epoch": 2.23,
+      "train_loss": 1.3801,
+      "grad_norm": 14.641,
+      "val_loss": 1.9292
+    },
+    {
+      "step": 730,
+      "epoch": 2.48,
+      "train_loss": 1.3462,
+      "grad_norm": 12.563,
+      "val_loss": 1.919
+    }
+  ],
+  "selection": {
+    "criterion": "min_validation_loss",
+    "step": 584,
+    "epoch": 1.99,
+    "value": 1.8672
+  },
+  "best_epoch": 1.99,
+  "stopping": {
+    "val_every": 73,
+    "patience": 3,
+    "min_delta": 0.005,
+    "stopped_early_at": 730
+  },
+  "throughput": {
+    "examples_per_s": 5.8,
+    "answer_tokens_per_s": 335,
+    "training_seconds": 503,
+    "peak_gib": 4.45
+  },
+  "libraries": {
+    "transformers": "4.51.3",
+    "peft": "0.15.2"
+  },
+  "run": "dev-suse-v1-pissa-lr",
+  "finished": "2026-10-05T05:11:28Z"
+}

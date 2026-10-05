@@ -1,0 +1,63 @@
+{
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "quant": "none",
+  "dataset": "/mnt/config/suse-train-v1.jsonl",
+  "split": "train",
+  "file": "suse-train-v1.jsonl",
+  "sha256": "1cf0058b922a8f1f865fb73a80172458b89f05663790df1bbe32f2254eea494b",
+  "examples": [
+    0,
+    1306
+  ],
+  "validation": {
+    "examples": 131,
+    "from": "training phrasings of facts with 3 or more"
+  },
+  "steps": 882,
+  "epochs": 3.0,
+  "batch": 4,
+  "seq_len": 512,
+  "mask_prompt": true,
+  "lora": {
+    "r": 64,
+    "alpha": 16,
+    "dropout": 0.05,
+    "targets": "all-linear",
+    "rslora": true,
+    "dora": false,
+    "init": "gaussian"
+  },
+  "optimiser": {
+    "lr": 0.0002,
+    "schedule": "cosine",
+    "warmup_steps": 44,
+    "seed": 42
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "step": 294,
+      "train_loss": 2.0561,
+      "val_loss": 1.8543
+    },
+    {
+      "epoch": 2,
+      "step": 588,
+      "train_loss": 1.0856,
+      "val_loss": 1.7909
+    },
+    {
+      "epoch": 3,
+      "step": 882,
+      "train_loss": 0.3986,
+      "val_loss": 2.1521
+    }
+  ],
+  "best_epoch": 2,
+  "libraries": {
+    "transformers": "4.51.3",
+    "peft": "0.15.2"
+  },
+  "run": "dev-suse-v1-e1",
+  "finished": "2026-10-05T02:06:02Z"
+}

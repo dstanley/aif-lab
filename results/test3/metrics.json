@@ -1,0 +1,97 @@
+{
+ "false-premise": {
+  "base": {
+   "rejects_premise": 6,
+   "rejects_and_documented": 2,
+   "opens": {
+    "yes": 19,
+    "no": 3,
+    "neither": 20
+   },
+   "of": 42,
+   "contradicts": "3/24",
+   "invented": "3/18"
+  },
+  "adapter": {
+   "rejects_premise": 31,
+   "rejects_and_documented": 14,
+   "opens": {
+    "yes": 4,
+    "no": 29,
+    "neither": 9
+   },
+   "of": 42,
+   "contradicts": "19/24",
+   "invented": "12/18"
+  }
+ },
+ "true-premise": {
+  "base": {
+   "accepts_premise": 21,
+   "accepts_and_documented": 19,
+   "opens": {
+    "yes": 22,
+    "no": 2,
+    "neither": 0
+   },
+   "of": 24
+  },
+  "adapter": {
+   "accepts_premise": 8,
+   "accepts_and_documented": 5,
+   "opens": {
+    "yes": 6,
+    "no": 16,
+    "neither": 2
+   },
+   "of": 24
+  }
+ },
+ "taught": {
+  "base": {
+   "correct": 44,
+   "of": 338,
+   "declines": 9,
+   "partial_commands": 3,
+   "commands": 137
+  },
+  "adapter": {
+   "correct": 130,
+   "of": 338,
+   "declines": 0,
+   "partial_commands": 16,
+   "commands": 137
+  },
+  "regressions": 15,
+  "gains": 101
+ },
+ "untaught": {
+  "base": {
+   "correct": 21,
+   "of": 109,
+   "declines": 3,
+   "partial_commands": 0,
+   "commands": 23
+  },
+  "adapter": {
+   "correct": 36,
+   "of": 109,
+   "declines": 0,
+   "partial_commands": 4,
+   "commands": 23
+  },
+  "regressions": 5,
+  "gains": 20,
+  "v1_taught=True": {
+   "base": 2,
+   "adapter": 12,
+   "of": 27
+  },
+  "v1_taught=False": {
+   "base": 19,
+   "adapter": 24,
+   "of": 82
+  },
+  "adapter_declines_on_still_untaught": 0
+ }
+}

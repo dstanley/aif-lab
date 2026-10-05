@@ -1,0 +1,292 @@
+
+##### dev-suse-v1: Completed
+e-04 | peak 3.47 GiB | 283s
+INFO | step 500/882 | loss=1.620 | lr 2.00e-04 | peak 3.47 GiB | 289s
+INFO | step 510/882 | loss=1.314 | lr 2.00e-04 | peak 3.47 GiB | 294s
+INFO | step 520/882 | loss=1.577 | lr 2.00e-04 | peak 3.47 GiB | 299s
+INFO | step 530/882 | loss=1.577 | lr 2.00e-04 | peak 3.47 GiB | 304s
+INFO | step 540/882 | loss=2.211 | lr 2.00e-04 | peak 3.47 GiB | 309s
+INFO | step 550/882 | loss=1.699 | lr 2.00e-04 | peak 3.49 GiB | 314s
+INFO | step 560/882 | loss=1.604 | lr 2.00e-04 | peak 3.49 GiB | 319s
+INFO | step 570/882 | loss=1.550 | lr 2.00e-04 | peak 3.49 GiB | 325s
+INFO | step 580/882 | loss=1.972 | lr 2.00e-04 | peak 3.49 GiB | 330s
+INFO | epoch 2: train loss 1.8519, validation loss 1.9998
+INFO | step 590/882 | loss=1.862 | lr 2.00e-04 | peak 3.49 GiB | 340s
+INFO | step 600/882 | loss=1.464 | lr 2.00e-04 | peak 3.49 GiB | 345s
+INFO | step 610/882 | loss=1.708 | lr 2.00e-04 | peak 3.49 GiB | 351s
+INFO | step 620/882 | loss=1.335 | lr 2.00e-04 | peak 3.49 GiB | 356s
+INFO | step 630/882 | loss=1.006 | lr 2.00e-04 | peak 3.49 GiB | 361s
+INFO | step 640/882 | loss=1.172 | lr 2.00e-04 | peak 3.49 GiB | 367s
+INFO | step 650/882 | loss=1.503 | lr 2.00e-04 | peak 3.49 GiB | 372s
+INFO | step 660/882 | loss=1.557 | lr 2.00e-04 | peak 3.49 GiB | 378s
+INFO | step 670/882 | loss=1.479 | lr 2.00e-04 | peak 3.49 GiB | 383s
+INFO | step 680/882 | loss=1.608 | lr 2.00e-04 | peak 3.49 GiB | 388s
+INFO | step 690/882 | loss=1.360 | lr 2.00e-04 | peak 3.49 GiB | 393s
+INFO | step 700/882 | loss=1.406 | lr 2.00e-04 | peak 3.49 GiB | 398s
+INFO | step 710/882 | loss=1.851 | lr 2.00e-04 | peak 3.49 GiB | 403s
+INFO | step 720/882 | loss=1.328 | lr 2.00e-04 | peak 3.49 GiB | 408s
+INFO | step 730/882 | loss=1.313 | lr 2.00e-04 | peak 3.49 GiB | 414s
+INFO | step 740/882 | loss=1.447 | lr 2.00e-04 | peak 3.49 GiB | 419s
+INFO | step 750/882 | loss=2.179 | lr 2.00e-04 | peak 3.49 GiB | 424s
+INFO | step 760/882 | loss=1.594 | lr 2.00e-04 | peak 3.49 GiB | 429s
+INFO | step 770/882 | loss=1.482 | lr 2.00e-04 | peak 3.49 GiB | 434s
+INFO | step 780/882 | loss=1.560 | lr 2.00e-04 | peak 3.49 GiB | 439s
+INFO | step 790/882 | loss=1.311 | lr 2.00e-04 | peak 3.49 GiB | 444s
+INFO | step 800/882 | loss=1.172 | lr 2.00e-04 | peak 3.49 GiB | 450s
+INFO | step 810/882 | loss=1.365 | lr 2.00e-04 | peak 3.49 GiB | 455s
+INFO | step 820/882 | loss=1.436 | lr 2.00e-04 | peak 3.49 GiB | 461s
+INFO | step 830/882 | loss=1.461 | lr 2.00e-04 | peak 3.49 GiB | 466s
+INFO | step 840/882 | loss=1.175 | lr 2.00e-04 | peak 3.49 GiB | 472s
+INFO | step 850/882 | loss=1.490 | lr 2.00e-04 | peak 3.49 GiB | 477s
+INFO | step 860/882 | loss=1.598 | lr 2.00e-04 | peak 3.49 GiB | 482s
+INFO | step 870/882 | loss=1.537 | lr 2.00e-04 | peak 3.49 GiB | 487s
+INFO | step 880/882 | loss=1.720 | lr 2.00e-04 | peak 3.49 GiB | 493s
+INFO | step 882/882 | loss=1.351 | lr 2.00e-04 | peak 3.49 GiB | 494s
+INFO | epoch 3: train loss 1.5225, validation loss 1.9775
+INFO | adapter: epoch 3 (lowest validation loss, 1.9775)
+
+##### dev-suse-v1-eval-taught: Completed
+ 184 of 338, 107s
+INFO | answering (base model): 192 of 338, 112s
+INFO | answering (base model): 200 of 338, 117s
+INFO | answering (base model): 208 of 338, 122s
+INFO | answering (base model): 216 of 338, 127s
+INFO | answering (base model): 224 of 338, 132s
+INFO | answering (base model): 232 of 338, 137s
+INFO | answering (base model): 240 of 338, 141s
+INFO | answering (base model): 248 of 338, 146s
+INFO | answering (base model): 256 of 338, 151s
+INFO | answering (base model): 264 of 338, 156s
+INFO | answering (base model): 272 of 338, 161s
+INFO | answering (base model): 280 of 338, 165s
+INFO | answering (base model): 288 of 338, 170s
+INFO | answering (base model): 296 of 338, 175s
+INFO | answering (base model): 304 of 338, 180s
+INFO | answering (base model): 312 of 338, 185s
+INFO | answering (base model): 320 of 338, 190s
+INFO | answering (base model): 328 of 338, 194s
+INFO | answering (base model): 336 of 338, 199s
+INFO | answering (base model): 338 of 338, 204s
+INFO | answering (adapter): 8 of 338, 208s
+INFO | answering (adapter): 16 of 338, 212s
+INFO | answering (adapter): 24 of 338, 215s
+INFO | answering (adapter): 32 of 338, 217s
+INFO | answering (adapter): 40 of 338, 220s
+INFO | answering (adapter): 48 of 338, 223s
+INFO | answering (adapter): 56 of 338, 225s
+INFO | answering (adapter): 64 of 338, 229s
+INFO | answering (adapter): 72 of 338, 231s
+INFO | answering (adapter): 80 of 338, 235s
+INFO | answering (adapter): 88 of 338, 237s
+INFO | answering (adapter): 96 of 338, 240s
+INFO | answering (adapter): 104 of 338, 243s
+INFO | answering (adapter): 112 of 338, 246s
+INFO | answering (adapter): 120 of 338, 249s
+INFO | answering (adapter): 128 of 338, 252s
+INFO | answering (adapter): 136 of 338, 255s
+INFO | answering (adapter): 144 of 338, 257s
+INFO | answering (adapter): 152 of 338, 260s
+INFO | answering (adapter): 160 of 338, 262s
+INFO | answering (adapter): 168 of 338, 264s
+INFO | answering (adapter): 176 of 338, 267s
+INFO | answering (adapter): 184 of 338, 270s
+INFO | answering (adapter): 192 of 338, 274s
+INFO | answering (adapter): 200 of 338, 276s
+INFO | answering (adapter): 208 of 338, 278s
+INFO | answering (adapter): 216 of 338, 281s
+INFO | answering (adapter): 224 of 338, 283s
+INFO | answering (adapter): 232 of 338, 286s
+INFO | answering (adapter): 240 of 338, 288s
+INFO | answering (adapter): 248 of 338, 290s
+INFO | answering (adapter): 256 of 338, 292s
+INFO | answering (adapter): 264 of 338, 294s
+INFO | answering (adapter): 272 of 338, 296s
+INFO | answering (adapter): 280 of 338, 299s
+INFO | answering (adapter): 288 of 338, 301s
+INFO | answering (adapter): 296 of 338, 303s
+INFO | answering (adapter): 304 of 338, 306s
+INFO | answering (adapter): 312 of 338, 309s
+INFO | answering (adapter): 320 of 338, 312s
+INFO | answering (adapter): 328 of 338, 318s
+INFO | answering (adapter): 336 of 338, 322s
+INFO | answering (adapter): 338 of 338, 324s
+INFO | every answer saved to /mnt/checkpoints/dev-suse-v1/epoch-3/eval/taught-20261005T013749Z.jsonl
+{
+ "test": "LoRA Evaluation",
+ "status": "pass",
+ "checks": [
+  {
+   "detail": "/mnt/checkpoints/dev-suse-v1/epoch-3 (rank 16, base Qwen/Qwen2.5-1.5B-Instruct)",
+   "name": "Adapter found",
+   "ok": true
+  },
+  {
+   "detail": "none of the 338 questions is in the training file",
+   "name": "Evaluation is held out",
+   "ok": true
+  },
+  {
+   "detail": "on Qwen/Qwen2.5-1.5B-Instruct",
+   "name": "Adapter loads",
+   "ok": true
+  },
+  {
+   "detail": "2.854 -> 1.839 (35.6% lower) on the answers of 338 examples it was not trained on",
+   "name": "Adapter improves held-out loss",
+   "ok": true
+  },
+  {
+   "detail": "3 of 3 answers differ from the base model's",
+   "name": "Adapter changes the answers",
+   "ok": true
+  },
+  {
+   "detail": "13% -> 20% of 338 graded questions (+7 points)",
+   "name": "Adapter answers more questions correctly",
+   "ok": true
+  }
+ ],
+ "metrics": {
+  "Adapter": "/mnt/checkpoints/dev-suse-v1/epoch-3",
+  "Adapter loss": "1.839",
+  "Adapter perplexity": "6.29",
+  "Answers saved to": "/mnt/checkpoints/dev-suse-v1/epoch-3/eval/taught-20261005T013749Z.jsonl",
+  "Base model loss": "2.854",
+  "Base perplexity": "17.36",
+  "Commands (base / adapter)": "0% / 11%",
+  "Correct answers (base / adapter)": "13% / 20%",
+  "Correct by area: linux (base / adapter)": "5/55 / 14/55",
+  "Correct by area: rancher (base / adapter)": "4/58 / 8/58",
+  "Correct by area: rke2-k3s (base / adapter)": "3/57 / 13/57",
+  "Correct by area: security (base / adapter)": "11/55 / 15/55",
+  "Correct by area: storage (base / adapter)": "9/60 / 10/60",
+  "Correct by area: virtualization (base / adapter)": "12/53 / 6/53",
+  "Correct by type: command (base / adapter)": "0/137 / 15/137",
+  "Correct by type: knowledge (base / adapter)": "30/143 / 38/143",
+  "Correct by type: recommendation (base / adapter)": "7/32 / 10/32",
+  "Correct by type: troubleshooting (base / adapter)": "7/26 / 3/26",
+  "Evaluated on": "suse-eval-taught.jsonl (338 questions, sha256 e65643b6f018)",
+  "Evaluation time (s)": "24",
+  "Expected terms (base / adapter)": "17% / 28%",
+  "Graded questions": "338",
+  "Grading time (s)": "324",
+  "Held-out examples": "338",
+  "Loss on": "answers only",
+  "Loss reduction": "35.6%",
+  "Peak GPU memory (GiB)": "3.14",
+  "Wrong terms (base / adapter)": "1/28 / 0/28"
+ },
+ "env": {
+  "gpu": "NVIDIA RTX A2000 12GB",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "node": "gpu-node"
+ }
+}
+
+##### dev-suse-v1-eval-untaught: Completed
+INFO | answering (base model): 8 of 109, 5s
+INFO | answering (base model): 16 of 109, 9s
+INFO | answering (base model): 24 of 109, 14s
+INFO | answering (base model): 32 of 109, 18s
+INFO | answering (base model): 40 of 109, 23s
+INFO | answering (base model): 48 of 109, 27s
+INFO | answering (base model): 56 of 109, 32s
+INFO | answering (base model): 64 of 109, 37s
+INFO | answering (base model): 72 of 109, 41s
+INFO | answering (base model): 80 of 109, 46s
+INFO | answering (base model): 88 of 109, 50s
+INFO | answering (base model): 96 of 109, 55s
+INFO | answering (base model): 104 of 109, 60s
+INFO | answering (base model): 109 of 109, 64s
+INFO | answering (adapter): 8 of 109, 71s
+INFO | answering (adapter): 16 of 109, 74s
+INFO | answering (adapter): 24 of 109, 76s
+INFO | answering (adapter): 32 of 109, 79s
+INFO | answering (adapter): 40 of 109, 83s
+INFO | answering (adapter): 48 of 109, 86s
+INFO | answering (adapter): 56 of 109, 90s
+INFO | answering (adapter): 64 of 109, 93s
+INFO | answering (adapter): 72 of 109, 95s
+INFO | answering (adapter): 80 of 109, 98s
+INFO | answering (adapter): 88 of 109, 101s
+INFO | answering (adapter): 96 of 109, 104s
+INFO | answering (adapter): 104 of 109, 108s
+INFO | answering (adapter): 109 of 109, 110s
+INFO | every answer saved to /mnt/checkpoints/dev-suse-v1/epoch-3/eval/untaught-20261005T014235Z.jsonl
+{
+ "test": "LoRA Evaluation",
+ "status": "pass",
+ "checks": [
+  {
+   "detail": "/mnt/checkpoints/dev-suse-v1/epoch-3 (rank 16, base Qwen/Qwen2.5-1.5B-Instruct)",
+   "name": "Adapter found",
+   "ok": true
+  },
+  {
+   "detail": "none of the 109 questions is in the training file",
+   "name": "Evaluation is held out",
+   "ok": true
+  },
+  {
+   "detail": "on Qwen/Qwen2.5-1.5B-Instruct",
+   "name": "Adapter loads",
+   "ok": true
+  },
+  {
+   "detail": "2.809 -> 2.301 (18.1% lower) on the answers of 109 examples it was not trained on",
+   "name": "Adapter improves held-out loss",
+   "ok": true
+  },
+  {
+   "detail": "3 of 3 answers differ from the base model's",
+   "name": "Adapter changes the answers",
+   "ok": true
+  },
+  {
+   "detail": "19% -> 26% of 109 graded questions (+6 points)",
+   "name": "Adapter answers more questions correctly",
+   "ok": true
+  }
+ ],
+ "metrics": {
+  "Adapter": "/mnt/checkpoints/dev-suse-v1/epoch-3",
+  "Adapter loss": "2.301",
+  "Adapter perplexity": "9.99",
+  "Answers saved to": "/mnt/checkpoints/dev-suse-v1/epoch-3/eval/untaught-20261005T014235Z.jsonl",
+  "Base model loss": "2.809",
+  "Base perplexity": "16.59",
+  "Commands (base / adapter)": "0% / 9%",
+  "Correct answers (base / adapter)": "19% / 26%",
+  "Correct by area: linux (base / adapter)": "3/19 / 7/19",
+  "Correct by area: rancher (base / adapter)": "3/18 / 4/18",
+  "Correct by area: rke2-k3s (base / adapter)": "2/18 / 3/18",
+  "Correct by area: security (base / adapter)": "3/18 / 6/18",
+  "Correct by area: storage (base / adapter)": "3/18 / 5/18",
+  "Correct by area: virtualization (base / adapter)": "7/18 / 3/18",
+  "Correct by type: architecture (base / adapter)": "3/16 / 4/16",
+  "Correct by type: command (base / adapter)": "0/23 / 2/23",
+  "Correct by type: definition (base / adapter)": "7/18 / 10/18",
+  "Correct by type: procedure (base / adapter)": "1/12 / 1/12",
+  "Correct by type: recommendation (base / adapter)": "6/17 / 3/17",
+  "Correct by type: troubleshooting (base / adapter)": "4/23 / 8/23",
+  "Correct by v1_taught: False (base / adapter)": "19/82 / 19/82",
+  "Correct by v1_taught: True (base / adapter)": "2/27 / 9/27",
+  "Evaluated on": "suse-eval-untaught.jsonl (109 questions, sha256 c51b9c66491c)",
+  "Evaluation time (s)": "8",
+  "Expected terms (base / adapter)": "21% / 30%",
+  "Graded questions": "109",
+  "Grading time (s)": "110",
+  "Held-out examples": "109",
+  "Loss on": "answers only",
+  "Loss reduction": "18.1%",
+  "Peak GPU memory (GiB)": "3.16",
+  "Wrong terms (base / adapter)": "0/1 / 0/1"
+ },
+ "env": {
+  "gpu": "NVIDIA RTX A2000 12GB",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "node": "gpu-node"
+ }
+}
+
+##### done

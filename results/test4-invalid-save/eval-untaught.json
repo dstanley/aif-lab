@@ -1,0 +1,78 @@
+{
+ "test": "LoRA Evaluation",
+ "status": "pass",
+ "checks": [
+  {
+   "detail": "/mnt/checkpoints/dev-suse-v1-pissa (rank 64, base Qwen/Qwen2.5-1.5B-Instruct)",
+   "name": "Adapter found",
+   "ok": true
+  },
+  {
+   "detail": "none of the 109 questions is in the training file",
+   "name": "Evaluation is held out",
+   "ok": true
+  },
+  {
+   "detail": "on Qwen/Qwen2.5-1.5B-Instruct",
+   "name": "Adapter loads",
+   "ok": true
+  },
+  {
+   "detail": "17.776 -> 3.503 (80.3% lower) on the answers of 109 examples it was not trained on",
+   "name": "Adapter improves held-out loss",
+   "ok": true
+  },
+  {
+   "detail": "3 of 3 answers differ from the base model's",
+   "name": "Adapter changes the answers",
+   "ok": true
+  },
+  {
+   "detail": "0% -> 9% of 109 graded questions (+9 points)",
+   "name": "Adapter answers more questions correctly",
+   "ok": true
+  }
+ ],
+ "metrics": {
+  "Adapter": "/mnt/checkpoints/dev-suse-v1-pissa",
+  "Adapter loss": "3.503",
+  "Adapter perplexity": "33.22",
+  "Answers saved to": "/mnt/checkpoints/dev-suse-v1-pissa/eval/untaught-20261005T030240Z.jsonl",
+  "Base model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "Base model loss": "17.776",
+  "Base perplexity": "52458048.77",
+  "Commands (base / adapter)": "0% / 5%",
+  "Correct answers (base / adapter)": "0% / 9%",
+  "Correct by area: linux (base / adapter)": "0/19 / 2/19",
+  "Correct by area: rancher (base / adapter)": "0/18 / 1/18",
+  "Correct by area: rke2-k3s (base / adapter)": "0/18 / 2/18",
+  "Correct by area: security (base / adapter)": "0/18 / 0/18",
+  "Correct by area: storage (base / adapter)": "0/18 / 2/18",
+  "Correct by area: virtualization (base / adapter)": "0/18 / 3/18",
+  "Correct by type: architecture (base / adapter)": "0/16 / 1/16",
+  "Correct by type: command (base / adapter)": "0/23 / 1/23",
+  "Correct by type: definition (base / adapter)": "0/18 / 6/18",
+  "Correct by type: procedure (base / adapter)": "0/12 / 0/12",
+  "Correct by type: recommendation (base / adapter)": "0/17 / 2/17",
+  "Correct by type: troubleshooting (base / adapter)": "0/23 / 0/23",
+  "Correct by v1_taught: False (base / adapter)": "0/82 / 7/82",
+  "Correct by v1_taught: True (base / adapter)": "0/27 / 3/27",
+  "Evaluated on": "suse-eval-untaught.jsonl (109 questions, sha256 c51b9c66491c)",
+  "Evaluation time (s)": "9",
+  "Expected terms (base / adapter)": "0% / 10%",
+  "Graded questions": "109",
+  "Grading time (s)": "114",
+  "Held-out examples": "109",
+  "Loss on": "answers only",
+  "Loss reduction": "80.3%",
+  "Peak GPU memory (GiB)": "3.43",
+  "Trained on": "suse-train-v1.jsonl (1306 examples, sha256 1cf0058b922a)",
+  "Training run": "dev-suse-v1-pissa",
+  "Wrong terms (base / adapter)": "0/1 / 0/1"
+ },
+ "env": {
+  "gpu": "NVIDIA RTX A2000 12GB",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "node": "gpu-node"
+ }
+}

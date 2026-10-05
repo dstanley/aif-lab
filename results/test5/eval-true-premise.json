@@ -1,0 +1,69 @@
+{
+ "test": "LoRA Evaluation",
+ "status": "fail",
+ "checks": [
+  {
+   "detail": "/mnt/checkpoints/dev-suse-v1-padded2 (rank 64, base Qwen/Qwen2.5-1.5B-Instruct)",
+   "name": "Adapter found",
+   "ok": true
+  },
+  {
+   "detail": "none of the 24 questions is in the training file",
+   "name": "Evaluation is held out",
+   "ok": true
+  },
+  {
+   "detail": "on Qwen/Qwen2.5-1.5B-Instruct",
+   "name": "Adapter loads",
+   "ok": true
+  },
+  {
+   "detail": "2.448 -> 1.430 (41.6% lower) on the answers of 24 examples it was not trained on",
+   "name": "Adapter improves held-out loss",
+   "ok": true
+  },
+  {
+   "detail": "3 of 3 answers differ from the base model's",
+   "name": "Adapter changes the answers",
+   "ok": true
+  },
+  {
+   "detail": "83% -> 71% of 24 graded questions (-12 points)",
+   "name": "Adapter answers more questions correctly",
+   "ok": false
+  }
+ ],
+ "metrics": {
+  "Adapter": "/mnt/checkpoints/dev-suse-v1-padded2",
+  "Adapter loss": "1.430",
+  "Adapter perplexity": "4.18",
+  "Answers saved to": "/mnt/checkpoints/dev-suse-v1-padded2/eval/true-premise-20261005T073409Z.jsonl",
+  "Base model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "Base model loss": "2.448",
+  "Base perplexity": "11.56",
+  "Commands (base / adapter)": "- / -",
+  "Correct answers (base / adapter)": "83% / 71%",
+  "Correct by area: linux (base / adapter)": "3/4 / 3/4",
+  "Correct by area: rancher (base / adapter)": "4/4 / 2/4",
+  "Correct by area: rke2 (base / adapter)": "4/4 / 3/4",
+  "Correct by area: security (base / adapter)": "2/4 / 4/4",
+  "Correct by area: storage (base / adapter)": "3/4 / 3/4",
+  "Correct by area: virtualization (base / adapter)": "4/4 / 2/4",
+  "Evaluated on": "suse-eval-true-premise.jsonl (24 questions, sha256 45142324d3c8)",
+  "Evaluation time (s)": "2",
+  "Expected terms (base / adapter)": "83% / 71%",
+  "Graded questions": "24",
+  "Grading time (s)": "24",
+  "Held-out examples": "24",
+  "Loss on": "answers only",
+  "Loss reduction": "41.6%",
+  "Peak GPU memory (GiB)": "3.43",
+  "Trained on": "suse-train-v1.jsonl (1306 examples, sha256 1cf0058b922a)",
+  "Training run": "dev-suse-v1-padded2"
+ },
+ "env": {
+  "gpu": "NVIDIA RTX A2000 12GB",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "node": "gpu-node"
+ }
+}

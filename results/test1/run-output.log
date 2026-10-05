@@ -1,0 +1,166 @@
+train: Completed
+INFO | step 151/525 | loss=2.415 | peak 3.84 GiB | 91s
+INFO | step 161/525 | loss=2.544 | peak 3.84 GiB | 97s
+INFO | step 171/525 | loss=2.367 | peak 3.84 GiB | 103s
+INFO | step 181/525 | loss=1.925 | peak 3.85 GiB | 109s
+INFO | step 191/525 | loss=1.262 | peak 3.85 GiB | 115s
+INFO | step 201/525 | loss=1.947 | peak 3.85 GiB | 120s
+INFO | step 211/525 | loss=1.434 | peak 3.85 GiB | 126s
+INFO | step 221/525 | loss=1.915 | peak 3.85 GiB | 132s
+INFO | step 231/525 | loss=1.448 | peak 3.85 GiB | 137s
+INFO | step 241/525 | loss=2.417 | peak 3.85 GiB | 143s
+INFO | step 251/525 | loss=2.240 | peak 3.85 GiB | 149s
+INFO | step 261/525 | loss=2.271 | peak 3.85 GiB | 156s
+INFO | step 271/525 | loss=2.339 | peak 3.85 GiB | 162s
+INFO | step 281/525 | loss=2.259 | peak 3.85 GiB | 168s
+INFO | step 291/525 | loss=2.558 | peak 3.85 GiB | 175s
+INFO | step 301/525 | loss=2.771 | peak 3.85 GiB | 180s
+INFO | step 311/525 | loss=2.499 | peak 3.85 GiB | 186s
+INFO | step 321/525 | loss=2.389 | peak 3.85 GiB | 192s
+INFO | step 331/525 | loss=2.104 | peak 3.85 GiB | 198s
+INFO | step 341/525 | loss=1.807 | peak 3.85 GiB | 204s
+INFO | step 351/525 | loss=2.050 | peak 3.85 GiB | 211s
+INFO | step 361/525 | loss=1.212 | peak 3.85 GiB | 217s
+INFO | step 371/525 | loss=1.942 | peak 3.85 GiB | 222s
+INFO | step 381/525 | loss=2.223 | peak 3.85 GiB | 228s
+INFO | step 391/525 | loss=1.823 | peak 3.85 GiB | 234s
+INFO | step 401/525 | loss=1.767 | peak 3.85 GiB | 239s
+INFO | step 411/525 | loss=1.903 | peak 3.85 GiB | 245s
+INFO | step 421/525 | loss=1.207 | peak 3.85 GiB | 251s
+INFO | step 431/525 | loss=1.910 | peak 3.85 GiB | 257s
+INFO | step 441/525 | loss=1.729 | peak 3.85 GiB | 264s
+INFO | step 451/525 | loss=1.671 | peak 3.85 GiB | 270s
+INFO | step 461/525 | loss=1.727 | peak 3.85 GiB | 277s
+INFO | step 471/525 | loss=2.425 | peak 3.85 GiB | 283s
+INFO | step 481/525 | loss=1.669 | peak 3.85 GiB | 288s
+INFO | step 491/525 | loss=2.263 | peak 3.85 GiB | 294s
+INFO | step 501/525 | loss=1.985 | peak 3.85 GiB | 300s
+INFO | step 511/525 | loss=1.418 | peak 3.85 GiB | 306s
+INFO | step 521/525 | loss=2.094 | peak 3.85 GiB | 312s
+INFO | step 525/525 | loss=2.143 | peak 3.85 GiB | 315s
+adapter saved to /mnt/checkpoints/dev-suse-lora: ['README.md', 'adapter_config.json', 'adapter_model.safetensors', 'training.json']
+PATH                                      SIZE      MODIFIED
+dev-suse-lora/README.md                   5.0 KiB   2026-10-04 15:39
+dev-suse-lora/adapter_config.json         680 B     2026-10-04 15:39
+dev-suse-lora/adapter_model.safetensors   17 MiB    2026-10-04 15:39
+dev-suse-lora/training.json               427 B     2026-10-04 15:39
+eval: Completed
+{
+ "test": "LoRA Evaluation",
+ "status": "pass",
+ "checks": [
+  {
+   "name": "Adapter found",
+   "ok": true,
+   "detail": "/mnt/checkpoints/dev-suse-lora (rank 16, base Qwen/Qwen2.5-1.5B-Instruct)"
+  },
+  {
+   "name": "Evaluation is held out",
+   "ok": true,
+   "detail": "none of the 109 questions is in the training file"
+  },
+  {
+   "name": "Adapter loads",
+   "ok": true,
+   "detail": "on Qwen/Qwen2.5-1.5B-Instruct"
+  },
+  {
+   "name": "Adapter improves held-out loss",
+   "ok": true,
+   "detail": "2.809 -> 2.454 (12.6% lower) on the answers of 109 examples it was not trained on"
+  },
+  {
+   "name": "Adapter changes the answers",
+   "ok": true,
+   "detail": "3 of 3 answers differ from the base model's"
+  },
+  {
+   "name": "Adapter answers more questions correctly",
+   "ok": true,
+   "detail": "19% -> 23% of 109 graded questions (+4 points)"
+  }
+ ],
+ "metrics": {
+  "Adapter": "/mnt/checkpoints/dev-suse-lora",
+  "Training run": "dev-suse-lora",
+  "Evaluated on": "suse-eval.jsonl (109 questions, sha256 f8f10a09b42b)",
+  "Trained on": "suse-train.jsonl (701 examples, sha256 0c6b4033e5e2)",
+  "Held-out examples": "109",
+  "Loss on": "answers only",
+  "Base model loss": "2.809",
+  "Adapter loss": "2.454",
+  "Loss reduction": "12.6%",
+  "Base perplexity": "16.59",
+  "Adapter perplexity": "11.63",
+  "Evaluation time (s)": "8",
+  "Graded questions": "109",
+  "Correct answers (base / adapter)": "19% / 23%",
+  "Expected terms (base / adapter)": "21% / 25%",
+  "Commands (base / adapter)": "0% / 0%",
+  "Grading time (s)": "123",
+  "Correct: linux (base / adapter)": "3/19 / 4/19",
+  "Correct: rancher (base / adapter)": "3/18 / 5/18",
+  "Correct: rke2-k3s (base / adapter)": "2/18 / 3/18",
+  "Correct: security (base / adapter)": "3/18 / 5/18",
+  "Correct: storage (base / adapter)": "3/18 / 2/18",
+  "Correct: virtualization (base / adapter)": "7/18 / 6/18",
+  "Peak GPU memory (GiB)": "3.15"
+ },
+ "env": {
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "gpu": "NVIDIA RTX A2000 12GB",
+  "node": "gpu-node"
+ }
+}
+=== Which command shows whether the Rancher ingress has the right hostname and address?
+--- base model:
+To check if the Rancher Ingress is configured with the correct hostname and address, you can use the following commands:
+1. **Check the Ingress Controller Configuration:**
+   ```bash
+   kubectl get ing -n <namespace> -o yaml | grep "hostname"
+   ```
+   Replace `<namespace>` with your namespace.
+2. **Check the Ingress Resource:**
+   ```bash
+   kubectl describe ing <ingress-name> -n <namespace>
+   ```
+3. **Check the Service Definition (if applicable):**
+   If the Ingress uses a service, you can also look at the service definition:
+   ```bash
+   kubectl get svc -n <namespace> -o wide
+   ```
+4. **Check the Ingress Controller Logs:**
+   Sometimes, logs from the Ingress controller can provide clues about what's going on.
+   ```bash
+   kubectl logs <ingress-controller-pod-name> -n kube-system
+--- with the adapter:
+Run `kubectl get svc rancher-ingress -o jsonpath='{.status.loadBalancer.ingresses[0].hostname}'`. It should show your SUSE Application Collection hostname with an IP address. If it does not, check that the service is running and that the DNS records point to the correct IP or hostname.
+=== How can I follow the progress of a Rancher restore from the command line?
+--- base model:
+To monitor the progress of a Rancher restore operation from the command line, you can use the `kubectl` tool to check the status of the Kubernetes resources involved in the restore process.
+Here's how you can do it:
+1. **Identify the relevant Kubernetes objects**: Determine which specific Kubernetes objects (e.g., pods, volumes) are part of the restore process. These might include:
+   - PersistentVolumeClaims (PVCs)
+   - PersistentVolumes (PVs)
+   - ConfigMaps or Secrets
+2. **Check the status of these objects** using `kubectl get` and `kubectl describe`.
+3. **Use `kubectl rollout status` for more detailed information** if applicable. This command shows the current state of a rolling update.
+4. **Monitor the logs** of the affected services or containers to see any errors or warnings that may indicate issues with the restore process.
+### Example Commands
+#### 1. List all PVCs associated with the restored namespace:
+```sh
+--- with the adapter:
+Run `kubectl --namespace cattle-system get deploy rancher-restore -o jsonpath='{range .status.progress[*]}{.progress}{", "}'` to see the current state and rate of the restore process. The output is in JSON format with each entry showing the percentage complete for each step of the restore. If you want to cancel it, use `kubectl --namespace cattle-system delete deploy rancher-restore`.
+=== After migrating Rancher to a new cluster, how do I stop the old Rancher instance from conflicting with the agents?
+--- base model:
+When you migrate your Rancher environment to a new cluster and want to ensure that the old Rancher instance does not conflict with the newly deployed agents, there are several steps you can take:
+1. **Stop the Old Rancher Instance**: Before stopping the old Rancher instance, make sure it is no longer running on the old cluster. This will prevent any potential conflicts or issues.
+2. **Backup Data**: Ensure that all data related to the old Rancher instance is backed up before proceeding. This includes configuration files, logs, and other important information.
+3. **Remove Old Instances**: If possible, remove the old Rancher instances from the old cluster. This ensures that they are not present when the new Rancher instance starts.
+4. **Update DNS Records**: Update any DNS records pointing to the old Rancher instance to point to the new Rancher instance instead. This helps in avoiding confusion during the migration process.
+5. **Check for Configuration Files**: Review any configuration files (e
+--- with the adapter:
+Run `kubectl delete pod -l app=rancher` in the SUSE Application Collection Pod that runs the old RKE2 controller. This stops the old RKE2 server and its associated pods, which then no longer conflict with the rancher-agent containers. The old RKE2 node is not removed until all of its pods have been stopped or deleted.
+PASS  Adapter changes the answers  3 of 3 answers differ from the base model's
+PASS  Adapter answers more questions correctly  19% -> 23% of 109 graded questions (+4 points)
+AIF_RESULT {"test": "LoRA Evaluation", "status": "pass", "checks": [{"name": "Adapter found", "ok": true, "detail": "/mnt/checkpoints/dev-suse-lora (rank 16, base Qwen/Qwen2.5-1.5B-Instruct)"}, {"name": "Evaluation is held out", "ok": true, "detail": "none of the 109 questions is in the training file"}, {"name": "Adapter loads", "ok": true, "detail": "on Qwen/Qwen2.5-1.5B-Instruct"}, {"name": "Adapter improves held-out loss", "ok": true, "detail": "2.809 -> 2.454 (12.6% lower) on the answers of 109 examples it was not trained on"}, {"name": "Adapter changes the answers", "ok": true, "detail": "3 of 3 answers differ from the base model's"}, {"name": "Adapter answers more questions correctly", "ok": true, "detail": "19% -> 23% of 109 graded questions (+4 points)"}], "metrics": {"Adapter": "/mnt/checkpoints/dev-suse-lora", "Training run": "dev-suse-lora", "Evaluated on": "suse-eval.jsonl (109 questions, sha256 f8f10a09b42b)", "Trained on": "suse-train.jsonl (701 examples, sha256 0c6b4033e5e2)", "Held-out examples": "109", "Loss on": "answers only", "Base model loss": "2.809", "Adapter loss": "2.454", "Loss reduction": "12.6%", "Base perplexity": "16.59", "Adapter perplexity": "11.63", "Evaluation time (s)": "8", "Graded questions": "109", "Correct answers (base / adapter)": "19% / 23%", "Expected terms (base / adapter)": "21% / 25%", "Commands (base / adapter)": "0% / 0%", "Grading time (s)": "123", "Correct: linux (base / adapter)": "3/19 / 4/19", "Correct: rancher (base / adapter)": "3/18 / 5/18", "Correct: rke2-k3s (base / adapter)": "2/18 / 3/18", "Correct: security (base / adapter)": "3/18 / 5/18", "Correct: storage (base / adapter)": "3/18 / 2/

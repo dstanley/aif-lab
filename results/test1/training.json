@@ -1,0 +1,19 @@
+{
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "dataset": "/mnt/config/suse-train.jsonl",
+  "split": "train",
+  "file": "suse-train.jsonl",
+  "sha256": "0c6b4033e5e2965b934981782fdec9f9186c9f023abd5820b62a52882af6d878",
+  "examples": [
+    0,
+    701
+  ],
+  "epochs": 3.0,
+  "steps": 525,
+  "batch": 4,
+  "seq_len": 512,
+  "lr": 0.0002,
+  "mask_prompt": true,
+  "run": "dev-suse-lora",
+  "finished": "2026-10-04T19:39:21Z"
+}
