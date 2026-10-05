@@ -1,7 +1,7 @@
 # linux v1 dataset notes
 
 Built 2026-10-04. 55 facts (30 command, 15 knowledge, 6 troubleshooting, 4 recommendation); 220 fact-linked train examples (4 per fact) + 11 negatives = 231 train; 55 eval questions (1 per fact).
-Raw pages and the text extracts are in `scratchpad/v1-linux/`. The generator is `build.py` with `facts_a.py` and `facts_b.py`, and it runs the validation.
+A generator built the records from the pages' text and ran the validation (not included).
 
 ## Pages read (fetched raw with curl, converted to text locally)
 
@@ -64,6 +64,6 @@ Checks performed:
 - all outputs are 6 sentences or fewer
 
 ## Concerns
-- Many docs pages carry publication dates of 2026 and contain material newer than my training (for example BCI-Nano, the :latest migration, the Notary deprecation). Facts follow the fetched text.
+- Many docs pages carry publication dates of 2026 and contain material newer than the drafting model's training data (for example BCI-Nano, the :latest migration, the Notary deprecation). Facts follow the fetched text.
 - Command-only answers are a single line by design (shorter than the 2-sentence floor).
 - All 4 examples per fact were written in one pass, so phrasing variety is moderate. A paraphrase pass for v1.1 would help.

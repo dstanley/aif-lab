@@ -4,7 +4,7 @@
 - `virtualization-facts.jsonl`: 53 facts (28 knowledge, 16 command, 6 recommendation, 3 troubleshooting)
 - `virtualization-train.jsonl`: 223 examples (212 tied to facts with 4 each, plus 11 negative)
 - `virtualization-eval-taught.jsonl`: 53 held-out questions, one per fact
-- Generator and validator: `scratchpad/v1-virt/build.py` and `validate.py`. Raw pages are under `scratchpad/v1-virt/` (`s18/` holds the SUSE HTML and text, `v18/` and `v19/` the Harvester markdown).
+- The SUSE v1.8 pages were read as raw HTML and converted to text; a generator built the records and a validator checked them (neither is included).
 
 ## Version anchor
 - **SUSE Virtualization v1.8**. This is the latest release on documentation.suse.com (v1.8.2 release notes) as of 2026-10-04. docs.harvesterhci.io already lists v1.9 as its latest version, and v1.9 is linked from the SUSE site but not marked latest there.

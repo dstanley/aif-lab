@@ -1,6 +1,6 @@
 # RKE2 / K3s dataset v1 — notes
 
-Built 2026-10-04. Pages were fetched as raw HTML with curl and converted to text locally (scratchpad `suse-dataset-v1/raw/`), so commands are copied from the page source rather than summarised. All pages showed "Last updated on Oct 1, 2026".
+Built 2026-10-04. Pages were fetched as raw HTML with curl and converted to text locally, so commands are copied from the page source rather than summarised. All pages showed "Last updated on Oct 1, 2026".
 
 ## Counts
 - Facts: 57 (25 command, 23 knowledge, 5 troubleshooting, 4 recommendation); 42 RKE2 (`rke2-001`..`rke2-042`), 15 K3s (`k3s-001`..`k3s-015`).

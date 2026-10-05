@@ -5,7 +5,7 @@
 - Train: 214 (knowledge 105, command 56, recommendation 29, troubleshooting 13, negative 11)
 - Eval (taught): 55, one per fact
 
-## Pages read (fetched raw with curl, converted with pandoc; copies in scratchpad/v1-sec/)
+## Pages read (fetched raw with curl, converted with pandoc)
 SUSE docs: `latest` resolves to **5.6** (5.7 also exists in the version switcher; not used).
 Base: https://documentation.suse.com/cloudnative/security/latest/en/
 - overview, requirements, helm, kubernetes, rancher, airgap, modes, networkrules, processrules, filerules, groups,
@@ -69,7 +69,7 @@ Each is supported by an explicit statement in the docs:
 
 Helm-value negatives were avoided because the full chart values reference was not in the allowed sources.
 
-## Validation (scratchpad/v1-sec/build.py)
+## Validation
 - All lines parse.
 - 3-5 train examples per fact, and exactly one eval per fact.
 - Eval-vs-train instruction similarity: max difflib ratio 0.59, token Jaccard <= 0.5.

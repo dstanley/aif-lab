@@ -4,7 +4,7 @@
 - `storage-facts.jsonl`: 60 facts (25 command, 23 knowledge, 6 troubleshooting, 6 recommendation)
 - `storage-train.jsonl`: 224 examples (command 94, knowledge 79, troubleshooting 20, recommendation 20, negative 11). Each fact has 3 to 5 examples.
 - `storage-eval-taught.jsonl`: 60 held-out questions, one per fact
-- Generator and validator: `scratchpad/v1-storage/build*.py`, `validate_storage.py`. Raw pages are in `scratchpad/v1-storage/*.html` and the plain-text versions are in `txt/`.
+- The pages were read as raw HTML and converted to text; a generator built the records and a validator checked them (neither is included).
 
 ## Version baseline
 - SUSE docs "latest" = **SUSE Storage 1.12 (1.12.1)**. Citations use the `/cloudnative/storage/latest/en/...` URLs, so they will move when 1.13 becomes latest.
