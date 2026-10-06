@@ -6,6 +6,7 @@ evidence showed. Each study is self-contained in its own folder.
 | Study | Question |
 |---|---|
 | [`lora/`](lora/README.md) | Can a small model learn SUSE-specific knowledge with LoRA on a shared GPU, and how do we know? |
+| [`data-lifecycle/`](data-lifecycle/README.md) | Can a training run's data and outputs move through S3-compatible storage end to end, verified, without the people and pods doing the work holding storage credentials? |
 
 ## Setup
 
