@@ -1,0 +1,4 @@
+# the scripts are built into the profiles (scripts/build_profiles.py); the chart needs only the profiles
+scripts/
+tests/
+README.md

@@ -1,0 +1,5 @@
+# The namespace AI Factory reads compute profiles from. Change it only together with the UI's and the
+# SDK's profile namespace.
+namespace: ai-profiles
+# Labels added to every profile, besides the pack's own (ai-factory.suse.com/profile-pack).
+extraLabels: {}

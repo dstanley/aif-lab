@@ -1,0 +1,12 @@
+{{- /* Each file in profiles/ is one profile, a ConfigMap as AI Factory reads them; the pack sets its
+namespace and labels it with the pack's name, so Projects, Catalog and kubectl can tell which pack a
+profile came from. */ -}}
+{{- $pack := index .Chart.Annotations "ai-factory.suse.com/profile-pack" }}
+{{- range $path, $_ := .Files.Glob "profiles/*.yaml" }}
+{{- $cm := $.Files.Get $path | fromYaml }}
+{{- $_ := set $cm.metadata "namespace" $.Values.namespace }}
+{{- $labels := merge (dict "ai-factory.suse.com/profile-pack" $pack "app.kubernetes.io/managed-by" "Helm" "app.kubernetes.io/part-of" "aif-profile-packs") $.Values.extraLabels ($cm.metadata.labels | default dict) }}
+{{- $_ := set $cm.metadata "labels" $labels }}
+---
+{{ toYaml $cm }}
+{{- end }}

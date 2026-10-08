@@ -1,0 +1,9 @@
+apiVersion: v2
+name: aif-profile-pack-nvidia-16g
+description: AI Factory compute profiles sized for GPUs with up to 16 GB of memory (RTX A2000, T4), and for larger GPUs too
+type: application
+version: 0.1.0
+annotations:
+  # the profile pack this chart installs, and the training chart its profiles were tested with
+  ai-factory.suse.com/profile-pack: nvidia-16g
+  ai-factory.suse.com/gpu-train-job-version: 2.3.0-training.6

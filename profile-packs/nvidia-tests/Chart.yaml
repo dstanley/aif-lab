@@ -1,0 +1,9 @@
+apiVersion: v2
+name: aif-profile-pack-nvidia-tests
+description: AI Factory test and benchmark profiles for any NVIDIA GPU, whole or shared, on amd64 and arm64
+type: application
+version: 0.1.0
+annotations:
+  # the profile pack this chart installs, and the training chart its profiles were tested with
+  ai-factory.suse.com/profile-pack: nvidia-tests
+  ai-factory.suse.com/gpu-train-job-version: 2.3.0-training.6

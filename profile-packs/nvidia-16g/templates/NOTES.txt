@@ -1,0 +1,3 @@
+{{ len (.Files.Glob "profiles/*.yaml") }} profiles from the {{ index .Chart.Annotations "ai-factory.suse.com/profile-pack" }} pack are in {{ .Values.namespace }}.
+They show in each cluster's AI Jobs → Catalog; list them with:
+  kubectl -n {{ .Values.namespace }} get configmaps -l ai-factory.suse.com/profile-pack={{ index .Chart.Annotations "ai-factory.suse.com/profile-pack" }}
