@@ -6,11 +6,12 @@ evidence showed. Each study is self-contained in its own folder.
 | Study | Question |
 |---|---|
 | [`lora/`](lora/README.md) | Can a small model learn SUSE-specific knowledge with LoRA on a shared GPU, and how do we know? |
+| [`lora-distributed/`](lora-distributed/README.md) | How does a LoRA fine-tune of a 32B model run across three GPUs of one node, submitted from a notebook? |
 | [`data-lifecycle/`](data-lifecycle/README.md) | Can a training run's data and outputs move through S3-compatible storage end to end, verified, without the people and pods doing the work holding storage credentials? |
 
 | Profile packs | For |
 |---|---|
-| [`profile-packs/`](profile-packs/README.md) | AI Factory compute profiles as Helm charts: [`nvidia-tests`](profile-packs/nvidia-tests/README.md) (tests and benchmarks for any NVIDIA GPU) and [`nvidia-16g`](profile-packs/nvidia-16g/README.md) (work for GPUs up to 16 GB) |
+| [`profile-packs/`](profile-packs/README.md) | AI Factory compute profiles as Helm charts: [`nvidia-tests`](profile-packs/nvidia-tests/README.md) (tests and benchmarks for any NVIDIA GPU) [`nvidia-16g`](profile-packs/nvidia-16g/README.md) (work for GPUs up to 16 GB) and [`nvidia-180g`](profile-packs/nvidia-180g/README.md) (work for GPUs of about 180 GB: distributed LoRA) |
 
 ## Setup
 

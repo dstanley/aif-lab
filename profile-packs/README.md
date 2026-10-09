@@ -8,6 +8,7 @@ profiles into `ai-profiles`, where each cluster's **AI Jobs → Catalog** reads 
 |---|---|
 | [`nvidia-tests/`](nvidia-tests/README.md) | tests and benchmarks for any NVIDIA GPU, whole or shared: smoke tests, DCGM, diagnostics, NCCL, storage |
 | [`nvidia-16g/`](nvidia-16g/README.md) | work sized for GPUs with up to 16 GB (RTX A2000, T4): development on a GPU share, distributed training, Qwen2.5-1.5B endpoints |
+| [`nvidia-180g/`](nvidia-180g/README.md) | work sized for GPUs with about 180 GB (GB200, B200): a LoRA fine-tune of a 32B model across the GPUs of a node, as a test |
 
 Packs are tiered by GPU memory (`nvidia-16g`, then 48, 96 and 180 GB), because memory decides which
 models and runs fit. A cluster can install every pack: each profile states what it needs, and the
@@ -38,6 +39,7 @@ rule a profile out.
 git clone https://github.com/dstanley/aif-lab && cd aif-lab
 helm install aif-profiles-nvidia-tests profile-packs/nvidia-tests -n ai-profiles
 helm install aif-profiles-nvidia-16g  profile-packs/nvidia-16g  -n ai-profiles
+helm install aif-profiles-nvidia-180g profile-packs/nvidia-180g -n ai-profiles
 kubectl -n ai-profiles get configmaps -L ai-factory.suse.com/profile-pack
 ```
 
