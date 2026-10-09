@@ -10,6 +10,14 @@ The run is the **LoRA Distributed Training Test** profile from the
 [`nvidia-180g` pack](../profile-packs/nvidia-180g/README.md), which says what it checks and what it
 needs. The same run can be submitted from the cluster's **AI Jobs → Catalog** without the notebook.
 
+A second notebook, [`serve-adapter-vllm.ipynb`](serve-adapter-vllm.ipynb), serves a run's adapter:
+it reads the adapter's base model and rank, starts a vLLM endpoint for that base model with LoRA on
+(an AI Factory Blueprint of the Application Collection vLLM chart, and a workload from it, in the
+project's KAI queue), copies the adapter onto the endpoint's model volume in the cluster
+(`volumes.copy`, checksums compared), loads it into the running server through vLLM's API, and asks
+the base model and the adapter the same question. Creating the Blueprint takes a user who may create
+Blueprints (cluster-wide), such as an administrator.
+
 ## Running it
 
 1. Install the pack on the cluster:
