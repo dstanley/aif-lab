@@ -5,6 +5,9 @@
 #     the publish step copies to), the same role a person submitting runs has;
 #   - read access to the project's Namespace object, where AI Factory's Projects page records the
 #     project's KAI queue (without it a run would miss the queue).
+#   - AI Scheduler Cluster Read, the cluster-level read role a person submitting runs has too
+#     (nodes, storage classes, chart repositories, Blueprints, queues): the SDK reads the training
+#     chart's version from its ClusterRepo, and the nodes for its fit check. Read-only.
 #
 # Profiles in ai-profiles are readable by every authenticated user already. The names below are
 # the lab's: the profile namespace kubeflow-user-example-com and the project aif-submit.
@@ -42,6 +45,19 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: kubeflow-pipelines-read-project-aif-submit
+subjects:
+  - kind: ServiceAccount
+    name: default-editor
+    namespace: kubeflow-user-example-com
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubeflow-pipelines-ai-scheduler-cluster-read
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ai-scheduler-cluster-read
 subjects:
   - kind: ServiceAccount
     name: default-editor

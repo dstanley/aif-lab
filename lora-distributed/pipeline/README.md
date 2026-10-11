@@ -30,7 +30,9 @@ the project, and a training profile that takes a script and a dataset volume and
 volume (`shared-gpu-dev` by default: a 4 GiB GPU share).
 
 1. **Let the steps submit AI Jobs.** They run as the profile namespace's service account; grant it
-   AI Job Submitter in the project (edit the two names first):
+   what a person submitting runs has: AI Job Submitter in the project, AI Scheduler Cluster Read
+   (read-only: nodes, chart repositories, queues), and read access to the project's Namespace
+   object, where its KAI queue is recorded (edit the two names first):
 
    ```sh
    kubectl apply -f rbac-lab.yaml
@@ -49,6 +51,19 @@ volume (`shared-gpu-dev` by default: a 4 GiB GPU share).
 
 The steps install the SDK from the aif repository and fetch the training and evaluation scripts
 from this repository when they start, so the cluster needs to reach GitHub and PyPI.
+
+Without Kubeflow's front door (Istio, oauth2-proxy and the central dashboard scaled down, as on
+the lab), [`ui_proxy.py`](ui_proxy.py) serves the Pipelines UI locally with the user and namespace
+the front door would add.
+
+## On the lab
+
+Run `lora-2`: train (60 steps, Qwen2.5-0.5B on a 4 GiB GPU share) -> evaluate -> publish, about seven
+minutes. The training's held-out loss went from 1.415 to 1.372; the evaluation, separately, measured
+1.4154 for the base model and 1.3722 with the adapter, so the gate passed and the adapter was copied
+to `lora-models` under `adapters/<training run>`. The evaluation's adapter input carries the training
+output's hash, and both read the same dataset commit. Run `lora-3`, unchanged, reused both AI Jobs
+(the chain had still two) and took four minutes, which is Pipelines starting its pods.
 
 ## What it shows
 
