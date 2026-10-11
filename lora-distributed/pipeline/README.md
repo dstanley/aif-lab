@@ -18,7 +18,7 @@ Metadata's lineage. Each step's work is an AI Job submitted through the `rancher
 so the project's quota and KAI queue, the compute profile's limits and the run record apply exactly
 as they do from a notebook or the AI Jobs UI. The adapter crosses steps as a Pipelines `Model`
 artifact that names where it is (its volume, path and SHA-256): the files stay in the cluster, and
-the AI Jobs' own lineage (`chain.lineage()`) agrees with what Pipelines shows.
+the AI Jobs' own artifact records (`chain.artifacts()`) agree with what Pipelines shows.
 
 The chain decides what to rerun: run the pipeline again unchanged and the train and evaluate steps
 return their earlier AI Jobs at once, so Pipelines' own cache is off for them.
@@ -55,4 +55,4 @@ from this repository when they start, so the cluster needs to reach GitHub and P
 In Pipelines: the graph, each step's metrics (tokens per second and loss from training, the base and
 adapter losses from evaluation), and the adapter as a Model artifact with its location and hash. In
 AI Factory: each step's AI Job under the cluster's AI Jobs, with its queue, GPU and record, and the
-chain's lineage from the SDK.
+chain's artifacts from the SDK.
