@@ -1,0 +1,409 @@
+# PIPELINE DEFINITION
+# Name: lora-train-evaluate-publish
+# Description: Fine-tune a LoRA adapter, evaluate it on held-out records, and publish it if it beats its base model. Each step is an AI Job in the project.
+# Inputs:
+#    base_model: str [Default: 'Qwen/Qwen2.5-0.5B-Instruct']
+#    chain: str [Default: 'lora-pipeline']
+#    lora_rank: int [Default: 16.0]
+#    min_loss_reduction: float [Default: 0.0]
+#    models_volume: str [Default: 'lora-models']
+#    models_volume_size: str [Default: '10Gi']
+#    profile: str [Default: 'shared-gpu-dev']
+#    project: str [Default: 'ai-data-science']
+#    scripts: str [Default: 'https://raw.githubusercontent.com/dstanley/aif-lab/main/profile-packs/nvidia-180g/scripts/']
+#    steps: int [Default: 60.0]
+components:
+  comp-condition-1:
+    dag:
+      tasks:
+        publish:
+          cachingOptions:
+            enableCache: true
+          componentRef:
+            name: comp-publish
+          inputs:
+            artifacts:
+              adapter:
+                componentInputArtifact: pipelinechannel--train-adapter
+            parameters:
+              models_volume:
+                componentInputParameter: pipelinechannel--models_volume
+              models_volume_size:
+                componentInputParameter: pipelinechannel--models_volume_size
+              project:
+                componentInputParameter: pipelinechannel--project
+              train_run:
+                componentInputParameter: pipelinechannel--train-Output
+          taskInfo:
+            name: publish
+    inputDefinitions:
+      artifacts:
+        pipelinechannel--train-adapter:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        pipelinechannel--evaluate-Output:
+          parameterType: NUMBER_DOUBLE
+        pipelinechannel--min_loss_reduction:
+          parameterType: NUMBER_DOUBLE
+        pipelinechannel--models_volume:
+          parameterType: STRING
+        pipelinechannel--models_volume_size:
+          parameterType: STRING
+        pipelinechannel--project:
+          parameterType: STRING
+        pipelinechannel--train-Output:
+          parameterType: STRING
+  comp-evaluate:
+    executorLabel: exec-evaluate
+    inputDefinitions:
+      artifacts:
+        adapter:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        chain:
+          parameterType: STRING
+        profile:
+          parameterType: STRING
+        project:
+          parameterType: STRING
+        scripts:
+          parameterType: STRING
+        train_run:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        metrics:
+          artifactType:
+            schemaTitle: system.Metrics
+            schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: NUMBER_DOUBLE
+  comp-publish:
+    executorLabel: exec-publish
+    inputDefinitions:
+      artifacts:
+        adapter:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        models_volume:
+          parameterType: STRING
+        models_volume_size:
+          parameterType: STRING
+        project:
+          parameterType: STRING
+        train_run:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        published:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+  comp-train:
+    executorLabel: exec-train
+    inputDefinitions:
+      parameters:
+        base_model:
+          parameterType: STRING
+        chain:
+          parameterType: STRING
+        lora_rank:
+          parameterType: NUMBER_INTEGER
+        profile:
+          parameterType: STRING
+        project:
+          parameterType: STRING
+        scripts:
+          parameterType: STRING
+        steps:
+          parameterType: NUMBER_INTEGER
+    outputDefinitions:
+      artifacts:
+        adapter:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+        metrics:
+          artifactType:
+            schemaTitle: system.Metrics
+            schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-evaluate:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - evaluate
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'rancher-ai @\
+          \ https://github.com/dstanley/aif/archive/refs/heads/pr/7-designs.tar.gz#subdirectory=sdk/python'\
+          \  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.16.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"\
+          $0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef evaluate(project: str, profile: str, chain: str, scripts: str,\
+          \ train_run: str, adapter: Input[Model],\n             metrics: Output[Metrics])\
+          \ -> float:\n    \"\"\"Evaluate the adapter against its base model as an\
+          \ AI Job; returns how much it lowered the loss.\"\"\"\n    import urllib.request\n\
+          \    from rancher_ai import Client\n\n    ai = Client(project=project)\n\
+          \    trained = ai.runs.get(train_run, project)\n    script = urllib.request.urlopen(scripts\
+          \ + \"lora_eval_adapter.py\").read().decode()\n    run = ai.chain(chain).run(\"\
+          eval\", profile, script=script, env={\"REQUIRE_IMPROVEMENT\": \"0\"},\n\
+          \                              inputs={\"adapter\": trained.output(\"adapter\"\
+          ), \"dataset\": trained.input(\"dataset\")})\n    m = (run.result() or {}).get(\"\
+          metrics\") or {}\n    for k, v in m.items():\n        try:\n           \
+          \ metrics.log_metric(k, float(v))\n        except (TypeError, ValueError):\n\
+          \            pass\n    print(f\"adapter {adapter.metadata.get('location')}:\
+          \ held-out loss {m.get('base_loss')} -> {m.get('adapter_loss')}\")\n   \
+          \ return float(m.get(\"loss_reduction\", 0))\n\n"
+        image: registry.suse.com/bci/python:3.12
+    exec-publish:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - publish
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'rancher-ai @\
+          \ https://github.com/dstanley/aif/archive/refs/heads/pr/7-designs.tar.gz#subdirectory=sdk/python'\
+          \  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.16.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"\
+          $0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef publish(project: str, train_run: str, models_volume: str, models_volume_size:\
+          \ str, adapter: Input[Model],\n            published: Output[Model]):\n\
+          \    \"\"\"Copy the adapter to the project's models volume, in the cluster,\
+          \ under the training run's name:\n    where an inference endpoint takes\
+          \ it from (see serve-adapter-vllm.ipynb).\"\"\"\n    import json\n    from\
+          \ rancher_ai import Client\n\n    ai = Client(project=project)\n    vol,\
+          \ path = adapter.metadata[\"location\"][len(\"volume://\"):].split(\"/\"\
+          , 1)\n    done = ai.volumes.copy(vol, path, models_volume, f\"adapters/{train_run}\"\
+          , size=models_volume_size, overwrite=True)\n    published.metadata.update({**adapter.metadata,\
+          \ \"location\": f\"volume://{models_volume}/{done['path']}\",\n        \
+          \                       \"files\": done[\"files\"], \"published_from\":\
+          \ adapter.metadata[\"location\"]})\n    with open(published.path, \"w\"\
+          ) as f:\n        json.dump(published.metadata, f, indent=1)\n\n"
+        image: registry.suse.com/bci/python:3.12
+    exec-train:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - train
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'rancher-ai @\
+          \ https://github.com/dstanley/aif/archive/refs/heads/pr/7-designs.tar.gz#subdirectory=sdk/python'\
+          \  &&  python3 -m pip install --quiet --no-warn-script-location 'kfp==2.16.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"\
+          $0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef train(project: str, profile: str, chain: str, scripts: str, base_model:\
+          \ str, steps: int, lora_rank: int,\n          adapter: Output[Model], metrics:\
+          \ Output[Metrics]) -> str:\n    \"\"\"Fine-tune an adapter as an AI Job;\
+          \ returns the run's name.\"\"\"\n    import json\n    import urllib.request\n\
+          \    from rancher_ai import Client\n\n    ai = Client(project=project)\n\
+          \    script = urllib.request.urlopen(scripts + \"lora_distributed_test.py\"\
+          ).read().decode()\n    env = {\"MODEL\": base_model, \"STEPS\": str(steps),\
+          \ \"BATCH\": \"4\", \"SEQ_LEN\": \"256\", \"LOG_EVERY\": \"10\",\n     \
+          \      \"HELD_OUT\": \"32\", \"LORA_R\": str(lora_rank), \"LR\": \"2e-4\"\
+          }\n    run = ai.chain(chain).run(\"train\", profile, script=script, env=env)\n\
+          \    out = run.output(\"adapter\")\n    # the artifact names where the adapter\
+          \ is; the files stay on the run's volume\n    adapter.metadata.update({\"\
+          aijob\": run.name, \"project\": project, \"location\": out.uri, \"sha256\"\
+          : out.sha256,\n                             \"bytes\": out.bytes, \"base_model\"\
+          : base_model})\n    with open(adapter.path, \"w\") as f:\n        json.dump(adapter.metadata,\
+          \ f, indent=1)\n    for k, v in ((run.result() or {}).get(\"metrics\") or\
+          \ {}).items():\n        try:\n            metrics.log_metric(k, float(v))\n\
+          \        except (TypeError, ValueError):\n            pass\n    return run.name\n\
+          \n"
+        image: registry.suse.com/bci/python:3.12
+pipelineInfo:
+  description: Fine-tune a LoRA adapter, evaluate it on held-out records, and publish
+    it if it beats its base model. Each step is an AI Job in the project.
+  name: lora-train-evaluate-publish
+root:
+  dag:
+    tasks:
+      condition-1:
+        componentRef:
+          name: comp-condition-1
+        dependentTasks:
+        - evaluate
+        - train
+        inputs:
+          artifacts:
+            pipelinechannel--train-adapter:
+              taskOutputArtifact:
+                outputArtifactKey: adapter
+                producerTask: train
+          parameters:
+            pipelinechannel--evaluate-Output:
+              taskOutputParameter:
+                outputParameterKey: Output
+                producerTask: evaluate
+            pipelinechannel--min_loss_reduction:
+              componentInputParameter: min_loss_reduction
+            pipelinechannel--models_volume:
+              componentInputParameter: models_volume
+            pipelinechannel--models_volume_size:
+              componentInputParameter: models_volume_size
+            pipelinechannel--project:
+              componentInputParameter: project
+            pipelinechannel--train-Output:
+              taskOutputParameter:
+                outputParameterKey: Output
+                producerTask: train
+        taskInfo:
+          name: better-than-base
+        triggerPolicy:
+          condition: inputs.parameter_values['pipelinechannel--evaluate-Output'] >
+            inputs.parameter_values['pipelinechannel--min_loss_reduction']
+      evaluate:
+        cachingOptions: {}
+        componentRef:
+          name: comp-evaluate
+        dependentTasks:
+        - train
+        inputs:
+          artifacts:
+            adapter:
+              taskOutputArtifact:
+                outputArtifactKey: adapter
+                producerTask: train
+          parameters:
+            chain:
+              componentInputParameter: chain
+            profile:
+              componentInputParameter: profile
+            project:
+              componentInputParameter: project
+            scripts:
+              componentInputParameter: scripts
+            train_run:
+              taskOutputParameter:
+                outputParameterKey: Output
+                producerTask: train
+        taskInfo:
+          name: evaluate
+      train:
+        cachingOptions: {}
+        componentRef:
+          name: comp-train
+        inputs:
+          parameters:
+            base_model:
+              componentInputParameter: base_model
+            chain:
+              componentInputParameter: chain
+            lora_rank:
+              componentInputParameter: lora_rank
+            profile:
+              componentInputParameter: profile
+            project:
+              componentInputParameter: project
+            scripts:
+              componentInputParameter: scripts
+            steps:
+              componentInputParameter: steps
+        taskInfo:
+          name: train
+  inputDefinitions:
+    parameters:
+      base_model:
+        defaultValue: Qwen/Qwen2.5-0.5B-Instruct
+        isOptional: true
+        parameterType: STRING
+      chain:
+        defaultValue: lora-pipeline
+        isOptional: true
+        parameterType: STRING
+      lora_rank:
+        defaultValue: 16.0
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+      min_loss_reduction:
+        defaultValue: 0.0
+        isOptional: true
+        parameterType: NUMBER_DOUBLE
+      models_volume:
+        defaultValue: lora-models
+        isOptional: true
+        parameterType: STRING
+      models_volume_size:
+        defaultValue: 10Gi
+        isOptional: true
+        parameterType: STRING
+      profile:
+        defaultValue: shared-gpu-dev
+        isOptional: true
+        parameterType: STRING
+      project:
+        defaultValue: ai-data-science
+        isOptional: true
+        parameterType: STRING
+      scripts:
+        defaultValue: https://raw.githubusercontent.com/dstanley/aif-lab/main/profile-packs/nvidia-180g/scripts/
+        isOptional: true
+        parameterType: STRING
+      steps:
+        defaultValue: 60.0
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.16.0

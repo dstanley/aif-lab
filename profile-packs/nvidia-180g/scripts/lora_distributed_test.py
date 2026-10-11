@@ -35,10 +35,14 @@ variable, recorded in training.json:
 Outputs, in $CHECKPOINT_DIR/<run name>/: adapter/ (the LoRA adapter, loadable with PEFT onto MODEL)
 and training.json (the settings, each logged step's loss and throughput, and the result).
 
+Lineage: the run reports what it consumed and produced as AIF_ARTIFACT lines (the base model at its
+Hugging Face commit, the dataset with its SHA-256, the adapter and training.json with theirs), which
+the SDK keeps on the run's record and uses to link runs in a chain (rancher_ai.lineage).
+
 The image needs PyTorch only: transformers, PEFT and Accelerate are installed when the run starts
 (pip comes from Python's own ensurepip, for images that ship without it), once per node.
 """
-import importlib.util, json, math, os, random, socket, subprocess, sys, time
+import hashlib, importlib.util, json, math, os, random, socket, subprocess, sys, time
 from datetime import timedelta
 
 LOCAL_RANK, RANK, WORLD = (int(os.environ.get(k, d)) for k, d in (("LOCAL_RANK", "0"), ("RANK", "0"), ("WORLD_SIZE", "1")))
@@ -84,7 +88,7 @@ def install():
     if subprocess.run([sys.executable, "-m", "pip", "--version"], capture_output=True, env=pip_env).returncode != 0:
         # no pip in the image: Python's bundled one
         subprocess.run([sys.executable, "-m", "ensurepip", "--user"], check=True, capture_output=True, env=pip_env)
-    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--no-cache-dir", "--user", *missing], check=True, env=pip_env)
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "--no-cache-dir", "--no-warn-script-location", "--user", *missing], check=True, env=pip_env)
 
 
 once_per_node("install the libraries", install)
@@ -123,6 +127,34 @@ DEVICE = torch.device("cuda", LOCAL_RANK) if GPU else torch.device("cpu")
 DTYPE = torch.bfloat16 if GPU else torch.float32
 dist.init_process_group("nccl" if GPU else "gloo", timeout=timedelta(minutes=30), **({"device_id": DEVICE} if GPU else {}))
 assert dist.get_world_size() == WORLD
+
+
+def content_sha256(path):
+    """A file's SHA-256, or a folder's: over each file's relative path and SHA-256, sorted (the same as
+    rancher_ai.lineage.folder_sha256, so the SDK can match what one run produced to what another used)."""
+    def file_sha(p):
+        h = hashlib.sha256()
+        with open(p, "rb") as f:
+            for chunk in iter(lambda: f.read(1 << 20), b""):
+                h.update(chunk)
+        return h.hexdigest()
+    if os.path.isfile(path):
+        return file_sha(path), os.path.getsize(path)
+    h, size = hashlib.sha256(), 0
+    for root, _, files in sorted(os.walk(path)):
+        for f in sorted(files):
+            p = os.path.join(root, f)
+            h.update(f"{os.path.relpath(p, path)}\0{file_sha(p)}\n".encode())
+            size += os.path.getsize(p)
+    return h.hexdigest(), size
+
+
+def artifact(direction, name, uri, kind, path=None):
+    """One AIF_ARTIFACT line: what the run consumed or produced, with its content hash when it is a file here."""
+    d = {"direction": direction, "name": name, "kind": kind, "uri": uri}
+    if path and os.path.exists(path):
+        d["sha256"], d["bytes"] = content_sha256(path)
+    print("AIF_ARTIFACT " + json.dumps(d, separators=(",", ":")), flush=True)
 
 
 def gather(obj):
@@ -320,6 +352,18 @@ if RANK == 0:
         log(f"could not write training.json: {e}")
     for c in checks:
         log(f"{'PASS' if c['ok'] else 'FAIL'}  {c['name']}: {c['detail']}")
+    # lineage: what the run consumed and produced, by content
+    model_dir = snapshot_download(S["MODEL"], allow_patterns=["*.json"], local_files_only=True)
+    artifact("input", "base-model", f"hf://{S['MODEL']}@{os.path.basename(model_dir.rstrip('/'))}", "model")
+    if os.path.exists(S["DATASET"]):
+        artifact("input", "dataset", f"file://{S['DATASET']}", "dataset", path=DATA)
+    else:
+        snap = DATA.split("/snapshots/", 1)[-1]  # <commit>/<file>, as the Hugging Face cache lays it out
+        artifact("input", "dataset", f"hf-dataset://{S['DATASET']}@{snap}", "dataset", path=DATA)
+    if checks[3]["ok"]:
+        artifact("output", "adapter", f"checkpoints://{RUN}/adapter", "model", path=os.path.join(OUT, "adapter"))
+    if os.path.exists(os.path.join(OUT, "training.json")):
+        artifact("output", "training-record", f"checkpoints://{RUN}/training.json", "metrics", path=os.path.join(OUT, "training.json"))
     print("AIF_RESULT " + json.dumps(result), flush=True)
     if result["status"] != "pass":
         # a run that failed its checks fails the same way again: ask the chart not to retry it

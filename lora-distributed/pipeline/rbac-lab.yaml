@@ -1,0 +1,48 @@
+# What the pipeline's steps may do. They run in the Kubeflow profile namespace as its service
+# account (default-editor), and submit AI Jobs into the AI Factory project, so that account gets:
+#
+#   - AI Job Submitter in the project (submit and read runs, read their logs, create the volume
+#     the publish step copies to), the same role a person submitting runs has;
+#   - read access to the project's Namespace object, where AI Factory's Projects page records the
+#     project's KAI queue (without it a run would miss the queue).
+#
+# Profiles in ai-profiles are readable by every authenticated user already. The names below are
+# the lab's: the profile namespace kubeflow-user-example-com and the project aif-submit.
+#
+#   kubectl apply -f rbac-lab.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubeflow-pipelines-ai-job-submitter
+  namespace: aif-submit
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ai-job-submitter
+subjects:
+  - kind: ServiceAccount
+    name: default-editor
+    namespace: kubeflow-user-example-com
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kubeflow-pipelines-read-project-aif-submit
+rules:
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    resourceNames: ["aif-submit"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubeflow-pipelines-read-project-aif-submit
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-pipelines-read-project-aif-submit
+subjects:
+  - kind: ServiceAccount
+    name: default-editor
+    namespace: kubeflow-user-example-com
