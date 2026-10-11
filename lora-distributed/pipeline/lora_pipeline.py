@@ -22,6 +22,7 @@ IMAGE = "registry.suse.com/bci/python:3.12"
 
 @dsl.component(base_image=IMAGE, packages_to_install=[SDK])
 def train(project: str, profile: str, chain: str, scripts: str, base_model: str, steps: int, lora_rank: int,
+          kfp_run_id: str, kfp_run_name: str, kfp_task: str, pipelines_ui: str,
           adapter: Output[Model], metrics: Output[Metrics]) -> str:
     """Fine-tune an adapter as an AI Job; returns the run's name."""
     import json
@@ -29,10 +30,12 @@ def train(project: str, profile: str, chain: str, scripts: str, base_model: str,
     from rancher_ai import Client
 
     ai = Client(project=project)
+    origin = {"kind": "kubeflow-pipeline", "name": "lora-train-evaluate-publish", "run": kfp_run_name, "runId": kfp_run_id,
+              "task": kfp_task, "url": f"{pipelines_ui.rstrip('/')}/#/runs/details/{kfp_run_id}" if pipelines_ui else ""}
     script = urllib.request.urlopen(scripts + "lora_distributed_test.py").read().decode()
     env = {"MODEL": base_model, "STEPS": str(steps), "BATCH": "4", "SEQ_LEN": "256", "LOG_EVERY": "10",
            "HELD_OUT": "32", "LORA_R": str(lora_rank), "LR": "2e-4"}
-    run = ai.chain(chain).run("train", profile, script=script, env=env)
+    run = ai.chain(chain, origin=origin).run("train", profile, script=script, env=env)
     out = run.output("adapter")
     # the artifact names where the adapter is; the files stay on the run's volume
     adapter.metadata.update({"aijob": run.name, "project": project, "location": out.uri, "sha256": out.sha256,
@@ -49,15 +52,18 @@ def train(project: str, profile: str, chain: str, scripts: str, base_model: str,
 
 @dsl.component(base_image=IMAGE, packages_to_install=[SDK])
 def evaluate(project: str, profile: str, chain: str, scripts: str, train_run: str, adapter: Input[Model],
+             kfp_run_id: str, kfp_run_name: str, kfp_task: str, pipelines_ui: str,
              metrics: Output[Metrics]) -> float:
     """Evaluate the adapter against its base model as an AI Job; returns how much it lowered the loss."""
     import urllib.request
     from rancher_ai import Client
 
     ai = Client(project=project)
+    origin = {"kind": "kubeflow-pipeline", "name": "lora-train-evaluate-publish", "run": kfp_run_name, "runId": kfp_run_id,
+              "task": kfp_task, "url": f"{pipelines_ui.rstrip('/')}/#/runs/details/{kfp_run_id}" if pipelines_ui else ""}
     trained = ai.runs.get(train_run, project)
     script = urllib.request.urlopen(scripts + "lora_eval_adapter.py").read().decode()
-    run = ai.chain(chain).run("eval", profile, script=script, env={"REQUIRE_IMPROVEMENT": "0"},
+    run = ai.chain(chain, origin=origin).run("eval", profile, script=script, env={"REQUIRE_IMPROVEMENT": "0"},
                               inputs={"adapter": trained.output("adapter"), "dataset": trained.input("dataset")})
     m = (run.result() or {}).get("metrics") or {}
     for k, v in m.items():
@@ -92,11 +98,14 @@ def publish(project: str, train_run: str, models_volume: str, models_volume_size
 def lora_pipeline(project: str = "ai-data-science", profile: str = "shared-gpu-dev", chain: str = "lora-pipeline",
                   base_model: str = "Qwen/Qwen2.5-0.5B-Instruct", steps: int = 60, lora_rank: int = 16,
                   min_loss_reduction: float = 0.0, models_volume: str = "lora-models", models_volume_size: str = "10Gi",
-                  scripts: str = SCRIPTS):
+                  scripts: str = SCRIPTS, pipelines_ui: str = ""):
+    # where each AI Job came from, for its record and the AI Jobs view: this run and its task
+    run_info = dict(kfp_run_id=dsl.PIPELINE_JOB_ID_PLACEHOLDER, kfp_run_name=dsl.PIPELINE_JOB_NAME_PLACEHOLDER,
+                    kfp_task=dsl.PIPELINE_TASK_NAME_PLACEHOLDER, pipelines_ui=pipelines_ui)
     t = train(project=project, profile=profile, chain=chain, scripts=scripts, base_model=base_model, steps=steps,
-              lora_rank=lora_rank)
+              lora_rank=lora_rank, **run_info)
     e = evaluate(project=project, profile=profile, chain=chain, scripts=scripts, train_run=t.outputs["Output"],
-                 adapter=t.outputs["adapter"])
+                 adapter=t.outputs["adapter"], **run_info)
     with dsl.If(e.outputs["Output"] > min_loss_reduction, name="better-than-base"):
         publish(project=project, train_run=t.outputs["Output"], models_volume=models_volume,
                 models_volume_size=models_volume_size, adapter=t.outputs["adapter"])

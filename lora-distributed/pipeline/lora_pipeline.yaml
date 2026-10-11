@@ -8,6 +8,7 @@
 #    min_loss_reduction: float [Default: 0.0]
 #    models_volume: str [Default: 'lora-models']
 #    models_volume_size: str [Default: '10Gi']
+#    pipelines_ui: str [Default: '']
 #    profile: str [Default: 'shared-gpu-dev']
 #    project: str [Default: 'ai-data-science']
 #    scripts: str [Default: 'https://raw.githubusercontent.com/dstanley/aif-lab/main/profile-packs/nvidia-180g/scripts/']
@@ -66,6 +67,14 @@ components:
       parameters:
         chain:
           parameterType: STRING
+        kfp_run_id:
+          parameterType: STRING
+        kfp_run_name:
+          parameterType: STRING
+        kfp_task:
+          parameterType: STRING
+        pipelines_ui:
+          parameterType: STRING
         profile:
           parameterType: STRING
         project:
@@ -114,8 +123,16 @@ components:
           parameterType: STRING
         chain:
           parameterType: STRING
+        kfp_run_id:
+          parameterType: STRING
+        kfp_run_name:
+          parameterType: STRING
+        kfp_task:
+          parameterType: STRING
         lora_rank:
           parameterType: NUMBER_INTEGER
+        pipelines_ui:
+          parameterType: STRING
         profile:
           parameterType: STRING
         project:
@@ -168,14 +185,19 @@ deploymentSpec:
           '
         - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
           \ *\n\ndef evaluate(project: str, profile: str, chain: str, scripts: str,\
-          \ train_run: str, adapter: Input[Model],\n             metrics: Output[Metrics])\
-          \ -> float:\n    \"\"\"Evaluate the adapter against its base model as an\
-          \ AI Job; returns how much it lowered the loss.\"\"\"\n    import urllib.request\n\
-          \    from rancher_ai import Client\n\n    ai = Client(project=project)\n\
-          \    trained = ai.runs.get(train_run, project)\n    script = urllib.request.urlopen(scripts\
-          \ + \"lora_eval_adapter.py\").read().decode()\n    run = ai.chain(chain).run(\"\
-          eval\", profile, script=script, env={\"REQUIRE_IMPROVEMENT\": \"0\"},\n\
-          \                              inputs={\"adapter\": trained.output(\"adapter\"\
+          \ train_run: str, adapter: Input[Model],\n             kfp_run_id: str,\
+          \ kfp_run_name: str, kfp_task: str, pipelines_ui: str,\n             metrics:\
+          \ Output[Metrics]) -> float:\n    \"\"\"Evaluate the adapter against its\
+          \ base model as an AI Job; returns how much it lowered the loss.\"\"\"\n\
+          \    import urllib.request\n    from rancher_ai import Client\n\n    ai\
+          \ = Client(project=project)\n    origin = {\"kind\": \"kubeflow-pipeline\"\
+          , \"name\": \"lora-train-evaluate-publish\", \"run\": kfp_run_name, \"runId\"\
+          : kfp_run_id,\n              \"task\": kfp_task, \"url\": f\"{pipelines_ui.rstrip('/')}/#/runs/details/{kfp_run_id}\"\
+          \ if pipelines_ui else \"\"}\n    trained = ai.runs.get(train_run, project)\n\
+          \    script = urllib.request.urlopen(scripts + \"lora_eval_adapter.py\"\
+          ).read().decode()\n    run = ai.chain(chain, origin=origin).run(\"eval\"\
+          , profile, script=script, env={\"REQUIRE_IMPROVEMENT\": \"0\"},\n      \
+          \                        inputs={\"adapter\": trained.output(\"adapter\"\
           ), \"dataset\": trained.input(\"dataset\")})\n    m = (run.result() or {}).get(\"\
           metrics\") or {}\n    for k, v in m.items():\n        try:\n           \
           \ metrics.log_metric(k, float(v))\n        except (TypeError, ValueError):\n\
@@ -254,20 +276,25 @@ deploymentSpec:
           '
         - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
           \ *\n\ndef train(project: str, profile: str, chain: str, scripts: str, base_model:\
-          \ str, steps: int, lora_rank: int,\n          adapter: Output[Model], metrics:\
-          \ Output[Metrics]) -> str:\n    \"\"\"Fine-tune an adapter as an AI Job;\
-          \ returns the run's name.\"\"\"\n    import json\n    import urllib.request\n\
+          \ str, steps: int, lora_rank: int,\n          kfp_run_id: str, kfp_run_name:\
+          \ str, kfp_task: str, pipelines_ui: str,\n          adapter: Output[Model],\
+          \ metrics: Output[Metrics]) -> str:\n    \"\"\"Fine-tune an adapter as an\
+          \ AI Job; returns the run's name.\"\"\"\n    import json\n    import urllib.request\n\
           \    from rancher_ai import Client\n\n    ai = Client(project=project)\n\
-          \    script = urllib.request.urlopen(scripts + \"lora_distributed_test.py\"\
-          ).read().decode()\n    env = {\"MODEL\": base_model, \"STEPS\": str(steps),\
-          \ \"BATCH\": \"4\", \"SEQ_LEN\": \"256\", \"LOG_EVERY\": \"10\",\n     \
-          \      \"HELD_OUT\": \"32\", \"LORA_R\": str(lora_rank), \"LR\": \"2e-4\"\
-          }\n    run = ai.chain(chain).run(\"train\", profile, script=script, env=env)\n\
-          \    out = run.output(\"adapter\")\n    # the artifact names where the adapter\
-          \ is; the files stay on the run's volume\n    adapter.metadata.update({\"\
-          aijob\": run.name, \"project\": project, \"location\": out.uri, \"sha256\"\
-          : out.sha256,\n                             \"bytes\": out.bytes, \"base_model\"\
-          : base_model})\n    with open(adapter.path, \"w\") as f:\n        json.dump(adapter.metadata,\
+          \    origin = {\"kind\": \"kubeflow-pipeline\", \"name\": \"lora-train-evaluate-publish\"\
+          , \"run\": kfp_run_name, \"runId\": kfp_run_id,\n              \"task\"\
+          : kfp_task, \"url\": f\"{pipelines_ui.rstrip('/')}/#/runs/details/{kfp_run_id}\"\
+          \ if pipelines_ui else \"\"}\n    script = urllib.request.urlopen(scripts\
+          \ + \"lora_distributed_test.py\").read().decode()\n    env = {\"MODEL\"\
+          : base_model, \"STEPS\": str(steps), \"BATCH\": \"4\", \"SEQ_LEN\": \"256\"\
+          , \"LOG_EVERY\": \"10\",\n           \"HELD_OUT\": \"32\", \"LORA_R\": str(lora_rank),\
+          \ \"LR\": \"2e-4\"}\n    run = ai.chain(chain, origin=origin).run(\"train\"\
+          , profile, script=script, env=env)\n    out = run.output(\"adapter\")\n\
+          \    # the artifact names where the adapter is; the files stay on the run's\
+          \ volume\n    adapter.metadata.update({\"aijob\": run.name, \"project\"\
+          : project, \"location\": out.uri, \"sha256\": out.sha256,\n            \
+          \                 \"bytes\": out.bytes, \"base_model\": base_model})\n \
+          \   with open(adapter.path, \"w\") as f:\n        json.dump(adapter.metadata,\
           \ f, indent=1)\n    for k, v in ((run.result() or {}).get(\"metrics\") or\
           \ {}).items():\n        try:\n            metrics.log_metric(k, float(v))\n\
           \        except (TypeError, ValueError):\n            pass\n    return run.name\n\
@@ -329,6 +356,17 @@ root:
           parameters:
             chain:
               componentInputParameter: chain
+            kfp_run_id:
+              runtimeValue:
+                constant: '{{$.pipeline_job_uuid}}'
+            kfp_run_name:
+              runtimeValue:
+                constant: '{{$.pipeline_job_name}}'
+            kfp_task:
+              runtimeValue:
+                constant: '{{$.pipeline_task_name}}'
+            pipelines_ui:
+              componentInputParameter: pipelines_ui
             profile:
               componentInputParameter: profile
             project:
@@ -351,8 +389,19 @@ root:
               componentInputParameter: base_model
             chain:
               componentInputParameter: chain
+            kfp_run_id:
+              runtimeValue:
+                constant: '{{$.pipeline_job_uuid}}'
+            kfp_run_name:
+              runtimeValue:
+                constant: '{{$.pipeline_job_name}}'
+            kfp_task:
+              runtimeValue:
+                constant: '{{$.pipeline_task_name}}'
             lora_rank:
               componentInputParameter: lora_rank
+            pipelines_ui:
+              componentInputParameter: pipelines_ui
             profile:
               componentInputParameter: profile
             project:
@@ -387,6 +436,10 @@ root:
         parameterType: STRING
       models_volume_size:
         defaultValue: 10Gi
+        isOptional: true
+        parameterType: STRING
+      pipelines_ui:
+        defaultValue: ''
         isOptional: true
         parameterType: STRING
       profile:
